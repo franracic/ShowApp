@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>The-Sopranos</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="shows">
+      <h1>Shows</h1>
+      <div class="show-card">
+        <img
+          src="https://media.vanityfair.com/photos/5eab453c04139b3db0bae8be/master/pass/the-sopranos-podcast.png"
+          alt="Sopranos"
+        />
+        <h2>The Sopranos</h2>
+        <p>
+          Drama series that follows the life of mob boss Tony Soprano as he
+          navigates the challenges of leading a criminal organization while
+          managing his personal and family issues.
+        </p>
+      </div>
+      <div>
+        <h2>Reviews</h2>
+        <textarea
+          type="text"
+          id="reviewInput"
+          class="reviewInput"
+          placeholder="Write a review"
+        ></textarea>
+        <input
+          type="number"
+          id="ratingInput"
+          class="reviewInput"
+          placeholder="Rating (1-5)"
+        />
+        <input type="button" value="Add" id="addButton" onclick="addReview()" />
+        <div id="reviews"></div>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
