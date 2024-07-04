@@ -50,7 +50,7 @@ function renderReviews() {
 
 const addReview = () => {
   const reviewInput = document.getElementById("reviewInput");
-  const ratingInput = document.getElementById("ratingInput");
+  const ratingInput = document.querySelector('input[name="rating"]:checked');
   if (!ratingInput.value) {
     alert("Please enter a rating");
     return;
