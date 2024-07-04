@@ -1,7 +1,19 @@
-let reviewList = [
-  { message: "This is a great show", rating: 5 },
-  { message: "This is a terrible show", rating: 1 },
-];
+function loadFromLocalStorage() {
+  const reviewListString = localStorage.getItem("reviews");
+  const reviewList = JSON.parse(reviewListString);
+  if (!reviewList) {
+    return [];
+  }
+  return reviewList;
+}
+
+function saveToLocalStorage(reviewList) {
+  const reviewListString = JSON.stringify(reviewList);
+  localStorage.setItem("reviews", reviewListString);
+}
+
+reviewList = [];
+reviewList = loadFromLocalStorage();
 
 function createReview(review) {
   const reviewCard = document.createElement("div");
@@ -15,6 +27,14 @@ function createReview(review) {
   reviewRating.innerHTML = review.rating + "/5";
   reviewRating.className = "reviewRating";
   reviewCard.appendChild(reviewRating);
+
+  const deleteButton = document.createElement("button");
+  deleteButton.innerHTML = "Remove";
+  deleteButton.className = "deleteButton";
+  deleteButton.onclick = () => {
+    deleteReview(review);
+  };
+  reviewCard.appendChild(deleteButton);
   return reviewCard;
 }
 
@@ -24,6 +44,8 @@ function renderReviews() {
   reviewList.forEach((review) => {
     reviews.appendChild(createReview(review));
   });
+  calculateAverageRating();
+  saveToLocalStorage(reviewList);
 }
 
 const addReview = () => {
@@ -42,6 +64,26 @@ const addReview = () => {
   renderReviews();
   reviewInput.value = "";
   ratingInput.value = "";
+};
+
+const calculateAverageRating = () => {
+  let ratingSum = 0;
+  reviewList.forEach((review) => {
+    ratingSum += parseInt(review.rating);
+  });
+  const averageRating = (ratingSum / reviewList.length).toFixed(2);
+
+  const avgReviewRating = document.getElementById("avgReviewRating");
+  avgReviewRating.innerHTML = averageRating + "/5";
+
+  return averageRating;
+};
+
+const deleteReview = (review) => {
+  reviewList = reviewList.filter((r) => {
+    return review !== r;
+  });
+  renderReviews();
 };
 
 renderReviews();

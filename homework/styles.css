@@ -95,3 +95,36 @@ body {
   padding: 10px;
   margin-bottom: 20px;
 }
+
+#addButton:hover {
+  background-color: #1f2937;
+  border: none;
+  color: #c3ddfd;
+  cursor: pointer;
+}
+
+#show-title {
+  display: flex;
+}
+
+#show-title p {
+  margin-left: 20px;
+  padding: 5px;
+  color: #1f2937;
+}
+
+.deleteButton {
+  position: absolute;
+  border: none;
+  background-color: #1f2937;
+  color: #c3ddfd;
+  border-radius: 5px;
+  font-size: large;
+  align-self: flex-end;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+.deleteButton:hover {
+  background-color: #d6314a;
+  cursor: pointer;
+}
