@@ -1,50 +1,38 @@
 import { IReview } from "@/typings/show";
-import {
-  Box,
-  Button,
-  NumberInput,
-  NumberInputField,
-  Textarea,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Text, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
-
-interface ReviewForm {
-  addShowReview: (review: IReview) => void;
-}
+import { ReviewStarsInput } from "../../review/ReviewStars/ReviewStarsInput";
 
 const temporaryEmail = "user@gmail.com";
 const temporaryAvatar = undefined;
 
-export const ReviewForm = ({ addShowReview }: ReviewForm) => {
-  const [rating, setRating] = useState(5);
+export const ReviewForm = ({
+  addShowReview,
+}: {
+  addShowReview: (review: IReview) => void;
+}) => {
+  const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [isRatingValid, setIsRatingValid] = useState(true);
 
   const handleSubmit = () => {
-    if (Number.isNaN(rating) || rating < 1 || rating > 5) return;
+    if (Number.isNaN(rating) || rating < 1 || rating > 5) {
+      setIsRatingValid(false);
+      return;
+    }
+    setIsRatingValid(true);
     addShowReview({
       email: temporaryEmail,
       avatar: temporaryAvatar,
       rating,
       comment,
     });
-    setRating(5);
+    setRating(0);
     setComment("");
   };
 
   return (
     <Box my={4}>
-      <NumberInput
-        borderColor={"whiteAlpha.400"}
-        min={1}
-        max={5}
-        value={rating}
-        backgroundColor="whiteAlpha.200"
-        clampValueOnBlur={false}
-        onChange={(value) => setRating(parseInt(value))}
-        mb={2}
-      >
-        <NumberInputField />
-      </NumberInput>
       <Textarea
         borderColor={"whiteAlpha.400"}
         backgroundColor="whiteAlpha.300"
@@ -53,6 +41,14 @@ export const ReviewForm = ({ addShowReview }: ReviewForm) => {
         onChange={(e) => setComment(e.target.value)}
         mb={2}
       />
+      <Flex flexWrap={"wrap"}>
+        <ReviewStarsInput label="rating" value={rating} onChange={setRating} />
+        {!isRatingValid && (
+          <Text color="red.500" fontSize={"xl"} ml={6}>
+            Please select a rating!
+          </Text>
+        )}
+      </Flex>
       <Button type="submit" onClick={handleSubmit} colorScheme="blue">
         Add Review
       </Button>

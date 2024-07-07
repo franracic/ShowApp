@@ -26,8 +26,8 @@ export default function Page() {
           {
             email: "mike@example.com",
             avatar: "https://bit.ly/prosper-baba",
-            rating: 3,
-            comment: "Good, but not my favorite.",
+            rating: 1,
+            comment: "Worst show.",
           },
         ];
   });

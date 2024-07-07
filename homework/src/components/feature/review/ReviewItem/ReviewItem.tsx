@@ -1,8 +1,9 @@
 import { IReview } from "@/typings/show";
-import { Avatar, Badge, Box, Button, Text } from "@chakra-ui/react";
+import { Avatar, Box, Button, Text } from "@chakra-ui/react";
+import { ReviewStarsValue } from "../ReviewStars/ReviewStarsValue";
 
 interface IReviewItem extends IReview {
-  deleteShowReview: (review: IReview) => void;
+  index: number;
 }
 
 export const ReviewItem = ({
@@ -10,7 +11,7 @@ export const ReviewItem = ({
   avatar,
   rating,
   comment,
-  deleteShowReview,
+  index,
 }: IReviewItem) => {
   return (
     <Box
@@ -27,21 +28,9 @@ export const ReviewItem = ({
           {email}
         </Text>
         <Text fontSize={"lg"}>{comment}</Text>
-        <Badge
-          colorScheme="blue"
-          borderRadius={"lg"}
-          padding={1}
-          fontSize={"16px"}
-        >
-          {`${rating}/5`}
-        </Badge>
+        <ReviewStarsValue value={rating} />
       </Box>
-      <Button
-        colorScheme="red"
-        size={"xs"}
-        onClick={() => deleteShowReview({ email, avatar, rating, comment })}
-        ml="auto"
-      >
+      <Button colorScheme="red" size={"xs"} ml="auto" data-review={index}>
         Delete
       </Button>
     </Box>

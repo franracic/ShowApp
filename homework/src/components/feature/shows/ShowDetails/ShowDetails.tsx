@@ -1,5 +1,6 @@
 import { IShow } from "@/typings/show";
-import { Badge, Box, Card, Heading, Image, Text } from "@chakra-ui/react";
+import { Box, Card, Heading, Image, Text } from "@chakra-ui/react";
+import { ReviewStarsValue } from "../../review/ReviewStars/ReviewStarsValue";
 
 export const ShowDetails = ({
   title,
@@ -31,14 +32,7 @@ export const ShowDetails = ({
         <Heading as="h2" size="lg" padding={4} color={"white"}>
           {title}
         </Heading>
-        <Badge
-          colorScheme="blue"
-          borderRadius={"lg"}
-          padding={1}
-          fontSize={"16px"}
-        >
-          {averageRating ? `${averageRating.toFixed(2)}/5` : "No Ratings"}
-        </Badge>
+        <ReviewStarsValue value={averageRating} />
       </Box>
       <Text color={"gray.400"} paddingX={4}>
         {description}
