@@ -3,7 +3,7 @@ import { Avatar, Box, Button, Text } from "@chakra-ui/react";
 import { ReviewStarsValue } from "../ReviewStars/ReviewStarsValue";
 
 interface IReviewItem extends IReview {
-  index: number;
+  deleteShowReview: (review: IReview) => void;
 }
 
 export const ReviewItem = ({
@@ -11,7 +11,7 @@ export const ReviewItem = ({
   avatar,
   rating,
   comment,
-  index,
+  deleteShowReview,
 }: IReviewItem) => {
   return (
     <Box
@@ -30,7 +30,12 @@ export const ReviewItem = ({
         <Text fontSize={"lg"}>{comment}</Text>
         <ReviewStarsValue value={rating} />
       </Box>
-      <Button colorScheme="red" size={"xs"} ml="auto" data-review={index}>
+      <Button
+        colorScheme="red"
+        size={"xs"}
+        ml="auto"
+        onClick={() => deleteShowReview({ email, avatar, rating, comment })}
+      >
         Delete
       </Button>
     </Box>

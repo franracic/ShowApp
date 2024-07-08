@@ -2,7 +2,6 @@ import { StarIcon } from "@chakra-ui/icons";
 import { Badge, Box, Flex } from "@chakra-ui/react";
 
 export const ReviewStarsValue = ({ value }: { value: number | undefined }) => {
-  console.log(value ? (value % 1) * 16 : 0);
   return (
     <Box>
       {!value ? (
@@ -15,7 +14,16 @@ export const ReviewStarsValue = ({ value }: { value: number | undefined }) => {
           No Ratings
         </Badge>
       ) : (
-        <Flex>
+        <Flex align={"center"}>
+          <Badge
+            colorScheme="blue"
+            borderRadius={"lg"}
+            padding={1}
+            fontSize={"16px"}
+            marginRight={2}
+          >
+            {`${value % 1 === 0 ? value : value.toFixed(2)}/5`}
+          </Badge>
           {Array.from({ length: value }, (_, index) => {
             return <StarIcon key={index} boxSize={4} color="blue.100" />;
           })}

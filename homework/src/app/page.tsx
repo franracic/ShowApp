@@ -8,28 +8,7 @@ import styles from "./page.module.css";
 export default function Page() {
   const [reviews, setReviews] = useState<IReview[]>(() => {
     const localData = localStorage.getItem("reviews-list");
-    return localData
-      ? JSON.parse(localData)
-      : [
-          {
-            email: "john@example.com",
-            avatar: "https://bit.ly/dan-abramov",
-            rating: 4,
-            comment: "Great show! Highly recommended.",
-          },
-          {
-            email: "jane@example.com",
-            avatar: "https://bit.ly/kent-c-dodds",
-            rating: 5,
-            comment: "One of the best TV series ever!",
-          },
-          {
-            email: "mike@example.com",
-            avatar: "https://bit.ly/prosper-baba",
-            rating: 1,
-            comment: "Worst show.",
-          },
-        ];
+    return localData ? JSON.parse(localData) : [];
   });
   useEffect(() => {
     if (reviews.length === 0) {
@@ -50,6 +29,7 @@ export default function Page() {
   };
 
   const deleteShowReview = (review: IReview) => {
+    console.log(review);
     setReviews(
       reviews.filter((r) => JSON.stringify(r) !== JSON.stringify(review))
     );
