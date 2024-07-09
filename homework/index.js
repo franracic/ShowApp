@@ -1,3 +1,5 @@
+let reviewList = loadFromLocalStorage();
+
 function loadFromLocalStorage() {
   const reviewListString = localStorage.getItem("reviews");
   const reviewList = JSON.parse(reviewListString);
@@ -11,9 +13,6 @@ function saveToLocalStorage(reviewList) {
   const reviewListString = JSON.stringify(reviewList);
   localStorage.setItem("reviews", reviewListString);
 }
-
-reviewList = [];
-reviewList = loadFromLocalStorage();
 
 function createReview(review) {
   const reviewCard = document.createElement("div");
@@ -31,16 +30,19 @@ function createReview(review) {
   const deleteButton = document.createElement("button");
   deleteButton.innerHTML = "Remove";
   deleteButton.className = "deleteButton";
-  deleteButton.onclick = () => {
-    deleteReview(review);
-  };
+  deleteButton.dataset.message = review.message;
+  deleteButton.dataset.rating = review.rating;
   reviewCard.appendChild(deleteButton);
   return reviewCard;
 }
 
 function renderReviews() {
   const reviews = document.getElementById("reviews");
-  reviews.innerHTML = "";
+  reviews.addEventListener("click", (event) => {
+    if (event.target.tagName === "BUTTON") {
+      deleteReview(event.target.dataset.message, event.target.dataset.rating);
+    }
+  });
   reviewList.forEach((review) => {
     reviews.appendChild(createReview(review));
   });
@@ -51,7 +53,7 @@ function renderReviews() {
 const addReview = () => {
   const reviewInput = document.getElementById("reviewInput");
   const ratingInput = document.querySelector('input[name="rating"]:checked');
-  if (!ratingInput.value) {
+  if (!ratingInput || !ratingInput.value) {
     alert("Please enter a rating");
     return;
   }
@@ -59,9 +61,13 @@ const addReview = () => {
     alert("Rating must be between 1 and 5");
     return;
   }
-  const newReview = { message: reviewInput.value, rating: ratingInput.value };
+  const newReview = {
+    message: reviewInput.value || "",
+    rating: ratingInput.value,
+  };
   reviewList.push(newReview);
-  renderReviews();
+  const reviews = document.getElementById("reviews");
+  reviews.prepend(createReview(newReview));
   reviewInput.value = "";
   ratingInput.value = "";
 };
@@ -71,19 +77,26 @@ const calculateAverageRating = () => {
   reviewList.forEach((review) => {
     ratingSum += parseInt(review.rating);
   });
-  const averageRating = (ratingSum / reviewList.length).toFixed(2);
-
   const avgReviewRating = document.getElementById("avgReviewRating");
-  avgReviewRating.innerHTML = averageRating + "/5";
-
+  if (!reviewList.length) {
+    avgReviewRating.innerHTML = "No reviews";
+  } else {
+    const averageRating = (ratingSum / reviewList.length).toFixed(2);
+    avgReviewRating.innerHTML = averageRating + "/5";
+  }
   return averageRating;
 };
 
-const deleteReview = (review) => {
+const deleteReview = (message, rating) => {
   reviewList = reviewList.filter((r) => {
-    return review !== r;
+    return message !== r.message || rating !== r.rating;
   });
-  renderReviews();
+  const reviewCards = document.querySelectorAll(".reviewCard");
+  reviewCards.forEach((card) => {
+    if (card.innerHTML.includes(message) && card.innerHTML.includes(rating)) {
+      card.remove();
+    }
+  });
 };
 
 renderReviews();
