@@ -1,31 +1,53 @@
+"use client";
 import { Button, Flex, Heading, Stack } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { usePathname } from "next/navigation";
 
 export const SidebarNavigation = () => {
+  const pathname = usePathname();
+
   return (
     <Flex
       height={"100vh"}
       direction={"column"}
       justifyContent={"space-between"}
-      p={5}
+      p={2}
       position="fixed"
       top="0"
       left="0"
-      w={"150px"}
+      w={"10vw"}
+      minW={"100px"}
     >
       <Stack direction={"column"}>
-        <Heading size={"l"} color={"white"}>
-          Tv show APP
+        <Heading size={"l"} color={"white"} mb={8}>
+          Tv shows APP
         </Heading>
-        <Button as={NextLink} href="/all-shows">
+        <Button
+          as={NextLink}
+          href="/all-shows"
+          variant={pathname.startsWith("/all-shows") ? "outline" : "ghost"}
+          colorScheme="whiteAlpha"
+        >
           All shows
         </Button>
-        <Button as={NextLink} href="/top-rated">
+        <Button
+          as={NextLink}
+          href="/top-rated"
+          variant={pathname.startsWith("/top-rated") ? "outline" : "ghost"}
+          colorScheme="whiteAlpha"
+        >
           Top rated
         </Button>
-        <Button>My profile</Button>
+        <Button
+          variant={pathname.startsWith("/profile") ? "outline" : "ghost"}
+          colorScheme="whiteAlpha"
+        >
+          My profile
+        </Button>
       </Stack>
-      <Button>Log out</Button>
+      <Button colorScheme="red" variant="outline">
+        Log out
+      </Button>
     </Flex>
   );
 };

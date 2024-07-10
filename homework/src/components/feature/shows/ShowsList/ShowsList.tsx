@@ -4,7 +4,6 @@ import { SimpleGrid } from "@chakra-ui/react";
 import { ShowCard } from "../ShowCard/ShowCard";
 
 export const ShowsList = ({ shows }: { shows: Array<IShow> }) => {
-  console.log(shows);
   if (!Array.isArray(shows) || shows.length === 0) {
     return <div>No shows available</div>;
   }

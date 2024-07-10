@@ -22,7 +22,7 @@ export default function RootLayout({
         <Providers>
           <Flex>
             <SidebarNavigation />
-            <Flex flex="1" ml="180px" justifyContent={"center"} p={4}>
+            <Flex flex="1" ml="max(10vw,100px)" justifyContent={"center"} p={4}>
               {children}
             </Flex>
           </Flex>

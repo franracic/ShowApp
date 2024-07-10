@@ -22,6 +22,7 @@ export const ShowCard = ({
       bg={"whiteAlpha.100"}
       maxW={"100%"}
       w={"700px"}
+      data-testid="show-card"
     >
       <Image
         alignSelf={"center"}

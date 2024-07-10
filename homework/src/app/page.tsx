@@ -1,11 +1,13 @@
 "use client";
-import ShowSection from "@/components/feature/shows/ShowSection/ShowSection";
-import styles from "./page.module.css";
+import { useRedirect } from "@/hooks/useRedirect";
+import { Spinner } from "@chakra-ui/react";
 
 export default function Page() {
-  return (
-    <main className={styles.main} style={{ flexGrow: 1 }}>
-      <ShowSection />
-    </main>
-  );
+  const isRunning = useRedirect("/all-shows", true);
+
+  if (isRunning) {
+    return <Spinner />;
+  }
+
+  return null;
 }
