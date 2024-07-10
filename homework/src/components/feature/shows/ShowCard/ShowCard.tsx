@@ -7,13 +7,14 @@ const placeholderImage = "https://fakeimg.pl/600x400?text=No+show+image";
 
 export const ShowCard = ({
   title,
-  imageUrl,
-  averageRating,
+  average_rating,
+  image_url,
+  id,
 }: Omit<IShow, "description">) => {
   return (
     <Card
       as={NextLink}
-      href={`/all-shows/${title}`}
+      href={`/all-shows/${id}`}
       p={2}
       border={"1px solid black"}
       borderRadius={"2xl"}
@@ -27,14 +28,14 @@ export const ShowCard = ({
         width={"100%"}
         maxH={"400px"}
         borderRadius={"lg"}
-        src={imageUrl || placeholderImage}
+        src={image_url || placeholderImage}
         alt={title}
       />
       <Flex direction={"column"} alignItems={"center"}>
         <Heading as="h2" size="lg" padding={4} color={"white"}>
           {title}
         </Heading>
-        <ReviewStarsValue value={averageRating} />
+        <ReviewStarsValue value={average_rating} />
       </Flex>
     </Card>
   );

@@ -1,11 +1,11 @@
 "use client";
 import { ShowDetails } from "@/components/feature/shows/ShowDetails/ShowDetails";
 import { ShowReviewSection } from "@/components/feature/shows/ShowReviewSection/ShowReviewSection";
-import { IReview } from "@/typings/show";
+import { IReview, IShow } from "@/typings/show";
 import { Box } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
 
-export default function ShowSection() {
+export default function ShowSection({ show }: { show: IShow }) {
   const [reviews, setReviews] = useState<IReview[]>(() => {
     const localData = localStorage.getItem("reviews-list");
     return localData ? JSON.parse(localData) : [];
@@ -18,7 +18,7 @@ export default function ShowSection() {
     }
   }, [reviews]);
 
-  const averageRating = useMemo(() => {
+  const average_rating = useMemo(() => {
     if (!reviews.length) return 0;
     const sum = reviews.reduce((sum, review) => sum + review.rating, 0);
     return parseFloat((sum / reviews.length).toFixed(2));
@@ -34,12 +34,8 @@ export default function ShowSection() {
     );
   };
   return (
-    <Box justifyContent={"center"}>
-      <ShowDetails
-        title="The Sopranos"
-        description="Drama series that follows the life of mob boss Tony Soprano as he navigates the challenges of leading a criminal organization while managing his personal and family issues."
-        averageRating={averageRating}
-      />
+    <Box>
+      <ShowDetails {...show} average_rating={average_rating} />
       <ShowReviewSection
         addShowReview={addShowReview}
         reviews={reviews}

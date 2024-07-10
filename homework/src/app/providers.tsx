@@ -1,8 +1,13 @@
 // app/providers.tsx
-'use client'
+"use client";
 
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider } from "@chakra-ui/react";
+import { SWRConfig } from "swr";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  return <ChakraProvider>{children}</ChakraProvider>
+  return (
+    <SWRConfig>
+      <ChakraProvider>{children}</ChakraProvider>
+    </SWRConfig>
+  );
 }

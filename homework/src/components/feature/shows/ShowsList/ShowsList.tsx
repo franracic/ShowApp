@@ -1,22 +1,16 @@
+"use client";
 import { IShow } from "@/typings/show";
 import { SimpleGrid } from "@chakra-ui/react";
 import { ShowCard } from "../ShowCard/ShowCard";
 
-const mockShows: Omit<IShow, "description">[] = [
-  {
-    title: "Example Show Title",
-    averageRating: 1.3,
-  },
-  {
-    title: "Another Show Title",
-    averageRating: 4.2,
-  },
-];
-
-export const ShowsList = () => {
+export const ShowsList = ({ shows }: { shows: Array<IShow> }) => {
+  console.log(shows);
+  if (!Array.isArray(shows) || shows.length === 0) {
+    return <div>No shows available</div>;
+  }
   return (
     <SimpleGrid columns={[1, 2, 3]} spacing="6">
-      {mockShows.map((show) => (
+      {shows.map((show) => (
         <ShowCard key={show.title} {...show} />
       ))}
     </SimpleGrid>

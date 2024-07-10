@@ -5,8 +5,8 @@ import { ReviewStarsValue } from "../../review/ReviewStars/ReviewStarsValue";
 export const ShowDetails = ({
   title,
   description,
-  imageUrl,
-  averageRating,
+  image_url,
+  average_rating,
 }: IShow) => {
   const placeholderImage = "https://fakeimg.pl/600x400?text=No+show+image";
 
@@ -25,14 +25,14 @@ export const ShowDetails = ({
         width={"100%"}
         maxH={"400px"}
         borderRadius={"lg"}
-        src={imageUrl || placeholderImage}
+        src={image_url || placeholderImage}
         alt={title}
       />
       <Box display={"flex"} alignItems={"center"}>
         <Heading as="h2" size="lg" padding={4} color={"white"}>
           {title}
         </Heading>
-        <ReviewStarsValue value={averageRating} />
+        <ReviewStarsValue value={average_rating} />
       </Box>
       <Text color={"gray.400"} paddingX={4}>
         {description}
