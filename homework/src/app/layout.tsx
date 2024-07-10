@@ -1,3 +1,5 @@
+import { SidebarNavigation } from "@/components/shared/SidebarNavigation/SidebarNavigation";
+import { Flex } from "@chakra-ui/react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from "./providers";
@@ -16,7 +18,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}><Providers>{children}</Providers></body>
+      <body className={inter.className} style={{ backgroundColor: "#111827" }}>
+        <Providers>
+          <Flex>
+            <SidebarNavigation />
+            <Flex flex="1" ml="180px">
+              {children}
+            </Flex>
+          </Flex>
+        </Providers>
+      </body>
     </html>
   );
 }
