@@ -1,4 +1,5 @@
 "use client";
+import { PasswordInput } from "@/components/shared/PasswordInput/PasswordInput";
 import {
   Alert,
   AlertDescription,
@@ -21,6 +22,7 @@ import useSWRMutation from "swr/mutation";
 import { mutator } from "../../../../fetchers/mutators";
 import { swrKeys } from "../../../../fetchers/swrKeys";
 
+
 interface ILoginFormInputs {
   email: string;
   password: string;
@@ -31,7 +33,7 @@ export const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ILoginFormInputs>();
   const { trigger, error: apiError } = useSWRMutation(swrKeys.login, mutator, {
     onSuccess: () => {
@@ -95,28 +97,36 @@ export const LoginForm = () => {
                 required: "Email is required",
               })}
               type="email"
+              disabled={isSubmitting}
             />
             {errors.email && (
               <Text color="red.500">{errors.email.message}</Text>
             )}
           </FormControl>
+
           <FormControl isRequired isInvalid={!!errors.password}>
             <FormLabel>Password</FormLabel>
-            <Input
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-              })}
-              type="password"
+            <PasswordInput
+              register={{
+                ...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                }),
+              }}
+              disabled={isSubmitting}
+              error={errors.password?.message}
             />
-            {errors.password && (
-              <Text color="red.500">{errors.password.message}</Text>
-            )}
           </FormControl>
-          <Button type="submit" colorScheme="blue">
+
+          <Button
+            type="submit"
+            colorScheme="blue"
+            isLoading={isSubmitting}
+            loadingText="Submitting"
+          >
             Log in
           </Button>
         </chakra.form>

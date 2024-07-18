@@ -1,4 +1,5 @@
 "use client";
+import { PasswordInput } from "@/components/shared/PasswordInput/PasswordInput";
 import {
   Alert,
   AlertDescription,
@@ -7,6 +8,7 @@ import {
   Button,
   Flex,
   FormControl,
+  FormHelperText,
   FormLabel,
   Heading,
   Input,
@@ -31,7 +33,7 @@ export const RegisterForm = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<IRegisterFormInputs>();
 
   const router = useRouter();
@@ -95,40 +97,50 @@ export const RegisterForm = () => {
                 required: "Email is required",
               })}
               type="email"
+              disabled={isSubmitting}
             />
             {errors.email && (
               <Text color="red.500">{errors.email.message}</Text>
             )}
           </FormControl>
+
           <FormControl isRequired isInvalid={!!errors.password}>
             <FormLabel>Password</FormLabel>
-            <Input
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-              })}
-              type="password"
+            <PasswordInput
+              register={{
+                ...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                }),
+              }}
+              disabled={isSubmitting}
+              error={errors.password?.message}
             />
-            {errors.password && (
-              <Text color="red.500">{errors.password.message}</Text>
-            )}
+            <FormHelperText>Min. 6 characters</FormHelperText>
           </FormControl>
+
           <FormControl isRequired isInvalid={!!errors.confirmPassword}>
             <FormLabel>Confirm Password</FormLabel>
-            <Input
-              {...register("confirmPassword", {
-                required: "Confirm Password is required",
-              })}
-              type="password"
+            <PasswordInput
+              register={{
+                ...register("confirmPassword", {
+                  required: "Confirm Password is required",
+                }),
+              }}
+              disabled={isSubmitting}
+              error={errors.confirmPassword?.message}
             />
-            {errors.confirmPassword && (
-              <Text color="red.500">{errors.confirmPassword.message}</Text>
-            )}
           </FormControl>
-          <Button type="submit" colorScheme="blue">
+
+          <Button
+            type="submit"
+            colorScheme="blue"
+            isLoading={isSubmitting}
+            loadingText="Submitting"
+          >
             Sign up
           </Button>
         </chakra.form>

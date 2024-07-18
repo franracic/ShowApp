@@ -1,16 +1,17 @@
 "use client";
 import ShowSection from "@/components/feature/shows/ShowSection/ShowSection";
 import { getShow } from "@/fetchers/show";
+import { swrKeys } from "@/fetchers/swrKeys";
 import { Heading, Spinner } from "@chakra-ui/react";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 
 export default function Page() {
   const params = useParams();
-  const { id } = params;
+  const id = params.id as string;
 
-  const { data, error, isLoading } = useSWR(`api/show/${id}`, () =>
-    getShow(id as string)
+  const { data, error, isLoading } = useSWR(swrKeys.show(id), () =>
+    getShow(id)
   );
 
   if (error) {
@@ -29,5 +30,5 @@ export default function Page() {
     );
   }
 
-  return <ShowSection show={data} />;
+  return <ShowSection show={data.show} />;
 }

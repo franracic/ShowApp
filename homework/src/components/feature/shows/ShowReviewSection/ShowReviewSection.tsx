@@ -17,7 +17,7 @@ export const ShowReviewSection = ({
 }: IShowReviewSection) => {
   return (
     <Box maxW={"100%"} w={"700px"} p={1} m={3}>
-      <Heading as="h3" size="lg">
+      <Heading as="h3" size="lg" color={"white"}>
         Reviews
       </Heading>
       <ReviewForm addShowReview={addShowReview} />

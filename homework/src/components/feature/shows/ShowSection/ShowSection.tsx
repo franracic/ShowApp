@@ -33,9 +33,10 @@ export default function ShowSection({ show }: { show: IShow }) {
       reviews.filter((r) => JSON.stringify(r) !== JSON.stringify(review))
     );
   };
+
   return (
     <Box>
-      <ShowDetails {...show} average_rating={average_rating} />
+      <ShowDetails {...show} average_rating={show.average_rating} />
       <ShowReviewSection
         addShowReview={addShowReview}
         reviews={reviews}
