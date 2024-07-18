@@ -22,7 +22,6 @@ describe("ShowsList", () => {
   it("should render all provided shows", () => {
     render(<ShowsList shows={mockShows} />);
     const showCards = document.querySelectorAll("[data-testid='show-card']");
-    console.log(mockShows.length, showCards.length);
     expect(showCards.length).toBe(mockShows.length);
     Array.from(showCards).map((showCard, index) => {
       expect(showCard).toHaveTextContent(

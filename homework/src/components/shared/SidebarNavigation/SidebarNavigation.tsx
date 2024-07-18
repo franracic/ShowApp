@@ -1,16 +1,27 @@
 "use client";
-import { Button, Flex, Heading, Stack } from "@chakra-ui/react";
+import { fetcher } from "@/fetchers/fetcher";
+import { swrKeys } from "@/fetchers/swrKeys";
+import { Box, Button, Flex, Heading, Stack } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import useSWR, { mutate } from "swr";
 
 export const SidebarNavigation = () => {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const logout = () => {
+    localStorage.removeItem("auth-header");
+    mutate(swrKeys.currentUser, null, false);
+    router.push("/login");
+  };
+
+  const { data, isLoading } = useSWR(swrKeys.currentUser, fetcher);
 
   return (
     <Flex
       height={"100vh"}
       direction={"column"}
-      justifyContent={"space-between"}
       p={2}
       position="fixed"
       top="0"
@@ -45,9 +56,36 @@ export const SidebarNavigation = () => {
           My profile
         </Button>
       </Stack>
-      <Button colorScheme="red" variant="outline">
-        Log out
-      </Button>
+      <Box mt="auto">
+        {!isLoading && data ? (
+          <Button mt={8} colorScheme="red" variant="outline" onClick={logout}>
+            Log Out
+          </Button>
+        ) : (
+          <>
+            <Button
+              mt={8}
+              colorScheme="blue"
+              variant="outline"
+              as={NextLink}
+              href="/login"
+              w={"100%"}
+            >
+              Log In
+            </Button>
+            <Button
+              mt={4}
+              colorScheme="blue"
+              variant="outline"
+              as={NextLink}
+              href="/register"
+              w={"100%"}
+            >
+              Register
+            </Button>
+          </>
+        )}
+      </Box>
     </Flex>
   );
 };
