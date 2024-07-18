@@ -3,7 +3,7 @@ import { Avatar, Box, Button, Text } from "@chakra-ui/react";
 import { ReviewStarsValue } from "../ReviewStars/ReviewStarsValue";
 
 interface IReviewItem extends IReview {
-  deleteShowReview: (review: IReview) => void;
+  deleteShowReview: (reviewId: string) => void;
 }
 
 export const ReviewItem = ({
@@ -11,6 +11,7 @@ export const ReviewItem = ({
   avatar,
   rating,
   comment,
+  id,
   deleteShowReview,
 }: IReviewItem) => {
   return (
@@ -34,7 +35,7 @@ export const ReviewItem = ({
         colorScheme="red"
         size={"xs"}
         ml="auto"
-        onClick={() => deleteShowReview({ email, avatar, rating, comment })}
+        onClick={() => deleteShowReview(id)}
       >
         Delete
       </Button>

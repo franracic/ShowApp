@@ -1,12 +1,13 @@
 export async function fetcher<T>(
   input: string | URL | globalThis.Request,
   init?: RequestInit
-): Promise<T> {
+): Promise<T | undefined> {
   try {
     const authHeaderString = localStorage.getItem("auth-header");
     const authHeader = authHeaderString ? JSON.parse(authHeaderString) : null;
 
     const headers = {
+      "Content-Type": "application/json",
       ...init?.headers,
       uid: authHeader.uid || "",
       client: authHeader.client || "",
@@ -22,7 +23,9 @@ export async function fetcher<T>(
       throw new Error(`Response status: ${response.status}`);
     }
 
-    return await response.json();
+    const text = await response.text();
+    return text ? JSON.parse(text) : undefined;
+    
   } catch (error) {
     throw new Error(`Response status: ${error}`);
   }

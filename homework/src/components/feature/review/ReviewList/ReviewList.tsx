@@ -7,7 +7,7 @@ export const ReviewList = ({
   deleteShowReview,
 }: {
   reviews: IReview[];
-  deleteShowReview: (review: IReview) => void;
+  deleteShowReview: (reviewId: string) => void;
 }) => {
 
   return (
