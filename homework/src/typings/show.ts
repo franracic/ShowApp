@@ -8,8 +8,10 @@ export interface IShow {
 }
 
 export interface IReview {
-  email: string;
-  avatar?: string;
+  user: {
+    email: string;
+    avatar: string;
+  };
   rating: number;
   comment: string;
   id: string;

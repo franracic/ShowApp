@@ -9,11 +9,14 @@ export const ReviewList = ({
   reviews: IReview[];
   deleteShowReview: (reviewId: string) => void;
 }) => {
-
   return (
     <Box>
       {reviews.map((review, index) => (
-        <ReviewItem key={index} {...review} deleteShowReview={deleteShowReview} />
+        <ReviewItem
+          key={index}
+          {...review}
+          deleteShowReview={deleteShowReview}
+        />
       ))}
     </Box>
   );

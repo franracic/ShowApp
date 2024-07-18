@@ -7,13 +7,19 @@ interface IReviewItem extends IReview {
 }
 
 export const ReviewItem = ({
-  email,
-  avatar,
   rating,
   comment,
+  user,
   id,
   deleteShowReview,
 }: IReviewItem) => {
+  let uid = "";
+  const authHeaderString = localStorage.getItem("auth-header");
+  if (authHeaderString) {
+    const authHeader = JSON.parse(authHeaderString);
+    uid = authHeader.uid;
+  }
+
   return (
     <Box
       display={"flex"}
@@ -23,22 +29,24 @@ export const ReviewItem = ({
       padding={4}
       marginY={2}
     >
-      <Avatar src={avatar} />
+      <Avatar src={user.avatar} />
       <Box padding={4}>
         <Text fontSize={"sm"} color={"gray.400"}>
-          {email}
+          {user.email}
         </Text>
         <Text fontSize={"lg"}>{comment}</Text>
         <ReviewStarsValue value={rating} />
       </Box>
-      <Button
-        colorScheme="red"
-        size={"xs"}
-        ml="auto"
-        onClick={() => deleteShowReview(id)}
-      >
-        Delete
-      </Button>
+      {uid === user.email && (
+        <Button
+          colorScheme="red"
+          size={"xs"}
+          ml="auto"
+          onClick={() => deleteShowReview(id)}
+        >
+          Delete
+        </Button>
+      )}
     </Box>
   );
 };
