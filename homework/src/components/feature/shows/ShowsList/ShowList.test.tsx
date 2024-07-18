@@ -19,6 +19,7 @@ describe("ShowsList", () => {
       description: "Some Description",
     },
   ];
+  
   it("should render all provided shows", () => {
     render(<ShowsList shows={mockShows} />);
     const showCards = document.querySelectorAll("[data-testid='show-card']");
@@ -35,5 +36,11 @@ describe("ShowsList", () => {
         `/all-shows/${mockShows[index].id}`
       );
     });
+  });
+
+  it("should render a placeholder if no shows are provided", () => {
+    render(<ShowsList shows={[]} />);
+    const placeholder = document.querySelector("[data-testid='placeholder']");
+    expect(placeholder).toBeInTheDocument();
   });
 });

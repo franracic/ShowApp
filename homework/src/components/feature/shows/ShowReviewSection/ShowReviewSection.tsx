@@ -23,7 +23,11 @@ export const ShowReviewSection = ({
         Reviews
       </Heading>
       <ReviewForm addShowReview={addShowReview} id={id} />
-      <ReviewList reviews={reviews} deleteShowReview={deleteShowReview} />
+      <ReviewList
+        reviews={reviews}
+        deleteShowReview={deleteShowReview}
+        show_id={id}
+      />
     </Box>
   );
 };

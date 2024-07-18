@@ -1,9 +1,18 @@
 import { IReview } from "@/typings/show";
-import { Avatar, Box, Button, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { ReviewStarsValue } from "../ReviewStars/ReviewStarsValue";
+import { EditModal } from "./EditModal/EditModal";
 
 interface IReviewItem extends IReview {
   deleteShowReview: (reviewId: string) => void;
+  show_id: string;
 }
 
 export const ReviewItem = ({
@@ -11,8 +20,11 @@ export const ReviewItem = ({
   comment,
   user,
   id,
+  show_id,
   deleteShowReview,
 }: IReviewItem) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   let uid = "";
   const authHeaderString = localStorage.getItem("auth-header");
   if (authHeaderString) {
@@ -38,14 +50,37 @@ export const ReviewItem = ({
         <ReviewStarsValue value={rating} />
       </Box>
       {uid === user.email && (
-        <Button
-          colorScheme="red"
-          size={"xs"}
-          ml="auto"
-          onClick={() => deleteShowReview(id)}
-        >
-          Delete
-        </Button>
+        <>
+          <Flex direction="column" ml={"auto"} gap={4}>
+            <Button
+              colorScheme="red"
+              size={"xs"}
+              ml="auto"
+              onClick={() => deleteShowReview(id)}
+              w={"100%"}
+            >
+              Delete
+            </Button>
+
+            <Button
+              colorScheme="blue"
+              size={"xs"}
+              ml="auto"
+              onClick={onOpen}
+              w={"100%"}
+            >
+              Edit
+            </Button>
+          </Flex>
+          <EditModal
+            isOpen={isOpen}
+            onClose={onClose}
+            comment={comment}
+            review_id={id}
+            rating={rating}
+            show_id={show_id}
+          />
+        </>
       )}
     </Box>
   );

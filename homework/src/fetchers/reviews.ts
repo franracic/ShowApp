@@ -25,3 +25,13 @@ export function deleteReview(reviewId: string) {
     },
   });
 }
+
+export function updateReview(comment:string, rating:number, reviewId: string) {
+  return fetcher(swrKeys.deleteReview(reviewId), {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({comment, rating})
+  });
+}

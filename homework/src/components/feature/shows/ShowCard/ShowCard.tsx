@@ -31,6 +31,7 @@ export const ShowCard = ({
         borderRadius={"lg"}
         src={image_url || placeholderImage}
         alt={title}
+        data-testid="placeholder"
       />
       <Flex direction={"column"} alignItems={"center"}>
         <Heading as="h2" size="lg" padding={4} color={"white"}>
