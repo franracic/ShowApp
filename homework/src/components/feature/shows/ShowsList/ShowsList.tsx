@@ -5,7 +5,7 @@ import { ShowCard } from "../ShowCard/ShowCard";
 
 export const ShowsList = ({ shows }: { shows: Array<IShow> }) => {
   if (!Array.isArray(shows) || shows.length === 0) {
-    return <div>No shows available</div>;
+    return <div data-testid="placeholder">No shows available</div>;
   }
   return (
     <SimpleGrid columns={[1, 2, 3]} spacing="6">

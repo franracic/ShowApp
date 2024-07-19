@@ -8,6 +8,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { ReviewStarsValue } from "../ReviewStars/ReviewStarsValue";
+import { DeleteModal } from "./DeleteModal/DeleteModal";
 import { EditModal } from "./EditModal/EditModal";
 
 interface IReviewItem extends IReview {
@@ -52,22 +53,14 @@ export const ReviewItem = ({
       {uid === user.email && (
         <>
           <Flex direction="column" ml={"auto"} gap={4}>
-            <Button
-              colorScheme="red"
-              size={"xs"}
-              ml="auto"
-              onClick={() => deleteShowReview(id)}
-              w={"100%"}
-            >
-              Delete
-            </Button>
-
+            <DeleteModal review_id={id} deleteShowReview={deleteShowReview} />
             <Button
               colorScheme="blue"
               size={"xs"}
               ml="auto"
               onClick={onOpen}
               w={"100%"}
+              name="edit"
             >
               Edit
             </Button>

@@ -69,7 +69,7 @@ export const EditModal = ({
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent bgColor={"blue.900"} color={"white"}>
-        <ModalHeader>Edit Review</ModalHeader>
+        <ModalHeader data-testid="edit-modal">Edit Review</ModalHeader>
         <ModalCloseButton />
 
         <ModalBody pb={6}>
@@ -79,6 +79,7 @@ export const EditModal = ({
               placeholder="First name"
               value={editedComment}
               onChange={handleChange}
+              data-testid="edit-comment"
             />
           </FormControl>
 
