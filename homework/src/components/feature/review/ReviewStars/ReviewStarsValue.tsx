@@ -10,6 +10,7 @@ export const ReviewStarsValue = ({ value }: { value: number | undefined }) => {
           borderRadius={"lg"}
           padding={1}
           fontSize={"16px"}
+          data-testid="rating-badge"
         >
           No Ratings
         </Badge>
@@ -21,6 +22,7 @@ export const ReviewStarsValue = ({ value }: { value: number | undefined }) => {
             padding={1}
             fontSize={"16px"}
             marginRight={2}
+            data-testid="rating-badge"
           >
             {`${value % 1 === 0 ? value : value.toFixed(2)}/5`}
           </Badge>

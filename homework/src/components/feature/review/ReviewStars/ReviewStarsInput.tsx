@@ -16,7 +16,7 @@ export const ReviewStarsInput = ({
   const [hoverValue, setHoverValue] = useState<number | null>(null);
 
   return (
-    <Box mb={3} id={label}>
+    <Box mb={3} id={label} data-testid="rating-input">
       {Array.from({ length: 5 }, (_, index) => {
         const starValue = index + 1;
         return (

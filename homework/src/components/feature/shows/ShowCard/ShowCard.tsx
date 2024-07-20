@@ -1,24 +1,28 @@
 import { IShow } from "@/typings/show";
-import { Box, Card, Heading, Image, Text } from "@chakra-ui/react";
+import { Card, Flex, Heading, Image } from "@chakra-ui/react";
+import NextLink from "next/link";
 import { ReviewStarsValue } from "../../review/ReviewStars/ReviewStarsValue";
 
-export const ShowDetails = ({
-  title,
-  description,
-  image_url,
-  average_rating,
-}: IShow) => {
-  const placeholderImage = "https://fakeimg.pl/600x400?text=No+show+image";
+const placeholderImage = "https://fakeimg.pl/600x400?text=No+show+image";
 
+export const ShowCard = ({
+  title,
+  average_rating,
+  image_url,
+  id,
+}: Omit<IShow, "description">) => {
   return (
     <Card
-      p={4}
+      as={NextLink}
+      href={`/all-shows/${id}`}
+      p={2}
       border={"1px solid black"}
       borderRadius={"2xl"}
       boxShadow={"md"}
       bg={"whiteAlpha.100"}
       maxW={"100%"}
       w={"700px"}
+      data-testid="show-card"
     >
       <Image
         alignSelf={"center"}
@@ -28,15 +32,12 @@ export const ShowDetails = ({
         src={image_url || placeholderImage}
         alt={title}
       />
-      <Box display={"flex"} alignItems={"center"}>
+      <Flex direction={"column"} alignItems={"center"}>
         <Heading as="h2" size="lg" padding={4} color={"white"}>
           {title}
         </Heading>
         <ReviewStarsValue value={average_rating} />
-      </Box>
-      <Text color={"gray.400"} paddingX={4}>
-        {description}
-      </Text>
+      </Flex>
     </Card>
   );
 };
