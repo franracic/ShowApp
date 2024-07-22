@@ -6,6 +6,21 @@ import NextLink from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import useSWR, { mutate } from "swr";
 
+const navigationButtons = [
+  {
+    label: "All shows",
+    href: "/all-shows",
+  },
+  {
+    label: "Top rated",
+    href: "/top-rated",
+  },
+  {
+    label: "My profile",
+    href: "/profile",
+  },
+];
+
 export const SidebarNavigation = () => {
   const pathname = usePathname();
   const router = useRouter();
@@ -35,28 +50,17 @@ export const SidebarNavigation = () => {
             <Heading size={"l"} color={"white"} mb={8}>
               Tv shows APP
             </Heading>
-            <Button
-              as={NextLink}
-              href="/all-shows"
-              variant={pathname.startsWith("/all-shows") ? "outline" : "ghost"}
-              colorScheme="whiteAlpha"
-            >
-              All shows
-            </Button>
-            <Button
-              as={NextLink}
-              href="/top-rated"
-              variant={pathname.startsWith("/top-rated") ? "outline" : "ghost"}
-              colorScheme="whiteAlpha"
-            >
-              Top rated
-            </Button>
-            <Button
-              variant={pathname.startsWith("/profile") ? "outline" : "ghost"}
-              colorScheme="whiteAlpha"
-            >
-              My profile
-            </Button>
+            {navigationButtons.map((item) => (
+              <Button
+                key={item.href}
+                as={NextLink}
+                href={item.href}
+                variant={pathname.startsWith(item.href) ? "outline" : "ghost"}
+                colorScheme="whiteAlpha"
+              >
+                {item.label}
+              </Button>
+            ))}
           </Stack>
           <Button
             mt={"auto"}

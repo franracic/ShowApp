@@ -1,6 +1,6 @@
 "use client";
 import ShowSection from "@/components/feature/shows/ShowSection/ShowSection";
-import { deleteReview, getReviews, newReview } from "@/fetchers/reviews";
+import { getReviews, newReview } from "@/fetchers/reviews";
 import { getShow } from "@/fetchers/show";
 import { swrKeys } from "@/fetchers/swrKeys";
 import { INewReview } from "@/typings/show";
@@ -31,20 +31,19 @@ export default function Page() {
     }
   };
 
-  const deleteShowReview = async (reviewId: string) => {
-    try {
-      await deleteReview(reviewId);
-      mutate(swrKeys.listReviews(id));
-    } catch (error) {
-      console.error("Error deleting review:", error);
-    }
-  };
-
   if (error || reviewsError) {
     return <Heading color={"white"}>Ups something went wrong...</Heading>;
   }
 
-  if (isLoading || !data || reviewsLoading) {
+  if (!isLoading && !reviewsLoading && !data) {
+    return (
+      <Heading color={"white"}>
+        No show found with id: {id}. Please check the URL and try again.
+      </Heading>
+    );
+  }
+
+  if (isLoading || reviewsLoading || !data) {
     return (
       <Spinner
         thickness="4px"
@@ -61,7 +60,6 @@ export default function Page() {
       show={data.show}
       reviews={reviewsData?.reviews ?? []}
       addShowReview={addShowReview}
-      deleteShowReview={deleteShowReview}
     />
   );
 }

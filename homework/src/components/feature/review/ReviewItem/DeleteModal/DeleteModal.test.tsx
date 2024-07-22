@@ -7,12 +7,7 @@ describe("DeleteModal component", () => {
   const reviewId = "123";
 
   beforeEach(() => {
-    render(
-      <DeleteModal
-        review_id={reviewId}
-        deleteShowReview={mockDeleteShowReview}
-      />
-    );
+    render(<DeleteModal review_id={reviewId} show_id={"15"} />);
   });
 
   it("should render the delete button", () => {

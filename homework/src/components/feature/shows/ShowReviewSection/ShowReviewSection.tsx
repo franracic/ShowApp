@@ -6,14 +6,12 @@ import { ReviewForm } from "../ReviewForm/ReviewForm";
 
 interface IShowReviewSection {
   reviews: IReview[];
-  deleteShowReview: (reviewId: string) => void;
   addShowReview: (review: INewReview) => void;
   id: string;
 }
 
 export const ShowReviewSection = ({
   reviews,
-  deleteShowReview,
   addShowReview,
   id,
 }: IShowReviewSection) => {
@@ -23,11 +21,7 @@ export const ShowReviewSection = ({
         Reviews
       </Heading>
       <ReviewForm addShowReview={addShowReview} id={id} />
-      <ReviewList
-        reviews={reviews}
-        deleteShowReview={deleteShowReview}
-        show_id={id}
-      />
+      <ReviewList reviews={reviews} show_id={id} />
     </Box>
   );
 };

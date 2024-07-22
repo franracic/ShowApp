@@ -1,3 +1,5 @@
+import { deleteReview } from "@/fetchers/reviews";
+import { swrKeys } from "@/fetchers/swrKeys";
 import {
   Button,
   Modal,
@@ -8,18 +10,37 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
+import { mutate } from "swr";
+import useSWRMutation from "swr/mutation";
 
-interface IDeleteModal {
+export const DeleteModal = ({
+  review_id,
+  show_id,
+}: {
   review_id: string;
-  deleteShowReview: (reviewId: string) => void;
-}
-
-export const DeleteModal = ({ review_id, deleteShowReview }: IDeleteModal) => {
+  show_id: string;
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleSubmit = () => {
-    deleteShowReview(review_id);
-    onClose();
+  const { trigger } = useSWRMutation(
+    swrKeys.deleteReview(review_id),
+    async () => {
+      await deleteReview(review_id);
+    },
+    {
+      onSuccess: () => {
+        mutate(swrKeys.listReviews(show_id));
+        onClose();
+      },
+    }
+  );
+
+  const handleSubmit = async () => {
+    try {
+      await trigger();
+    } catch (error) {
+      console.error("Error deleting review:", error);
+    }
   };
 
   return (

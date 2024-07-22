@@ -6,22 +6,21 @@ import {
   AlertIcon,
   AlertTitle,
   Button,
+  Card,
   chakra,
-  Flex,
   FormControl,
   FormLabel,
   Heading,
   Input,
   Link,
   Text,
+  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { mutate } from "swr";
 import useSWRMutation from "swr/mutation";
 import { mutator } from "../../../../fetchers/mutators";
 import { swrKeys } from "../../../../fetchers/swrKeys";
-
 
 interface ILoginFormInputs {
   email: string;
@@ -29,15 +28,22 @@ interface ILoginFormInputs {
 }
 
 export const LoginForm = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const toast = useToast();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<ILoginFormInputs>();
+
   const { trigger, error: apiError } = useSWRMutation(swrKeys.login, mutator, {
     onSuccess: () => {
-      setLoggedIn(true);
+      toast({
+        title: "Logged in.",
+        description: "Redirecting...",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
     },
   });
 
@@ -56,7 +62,7 @@ export const LoginForm = () => {
 
   return (
     <>
-      <Flex
+      <Card
         direction="column"
         gap={3}
         alignItems="center"
@@ -69,11 +75,6 @@ export const LoginForm = () => {
         maxW={"700px"}
         w={"100%"}
       >
-        {loggedIn && (
-          <Alert status="success" variant={"solid"}>
-            You are logged in!
-          </Alert>
-        )}
         <Heading as="h2">Login</Heading>
         {apiError && (
           <Alert status="error" colorScheme="red" variant="solid">
@@ -136,7 +137,7 @@ export const LoginForm = () => {
             Register
           </Link>
         </Text>
-      </Flex>
+      </Card>
     </>
   );
 };

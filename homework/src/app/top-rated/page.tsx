@@ -15,6 +15,14 @@ export default function Page() {
     return <Heading color={"white"}>Ups something went wrong...</Heading>;
   }
 
+  if (!isLoading && !data) {
+    return (
+      <Heading color={"white"}>
+        No shows found. Please check the URL and try again.
+      </Heading>
+    );
+  }
+
   if (isLoading || !data || !data.shows) {
     return (
       <Spinner

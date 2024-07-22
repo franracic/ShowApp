@@ -12,7 +12,6 @@ import { DeleteModal } from "./DeleteModal/DeleteModal";
 import { EditModal } from "./EditModal/EditModal";
 
 interface IReviewItem extends IReview {
-  deleteShowReview: (reviewId: string) => void;
   show_id: string;
 }
 
@@ -22,7 +21,6 @@ export const ReviewItem = ({
   user,
   id,
   show_id,
-  deleteShowReview,
 }: IReviewItem) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -53,7 +51,7 @@ export const ReviewItem = ({
       {uid === user.email && (
         <>
           <Flex direction="column" ml={"auto"} gap={4}>
-            <DeleteModal review_id={id} deleteShowReview={deleteShowReview} />
+            <DeleteModal review_id={id} show_id={show_id} />
             <Button
               colorScheme="blue"
               size={"xs"}

@@ -16,6 +16,7 @@ import {
 import { useState } from "react";
 import { mutate } from "swr";
 import { ReviewStarsInput } from "../../ReviewStars/ReviewStarsInput";
+import useSWRMutation from "swr/mutation";
 
 interface IEditModal {
   isOpen: boolean;
@@ -47,6 +48,29 @@ export const EditModal = ({
     setEditedComment(event.target.value);
   };
 
+  const { trigger } = useSWRMutation(
+    swrKeys.deleteReview(review_id),
+    async () => {
+      await 
+      changeReview({ comment: editedComment, rating: newRating, review_id });
+    },
+    {
+      onSuccess: () => {
+        mutate(swrKeys.listReviews(show_id));
+        onClose();
+      },
+    }
+  );
+
+  const handleSubmit = async () => {
+    try {
+      await trigger();
+    } catch (error) {
+      console.error("Error editing review:", error);
+    }
+  };
+
+
   const changeReview = async ({
     comment,
     rating,
@@ -58,11 +82,6 @@ export const EditModal = ({
     } catch (error) {
       console.error("Error updating review:", error);
     }
-  };
-
-  const handleSubmit = () => {
-    changeReview({ comment: editedComment, rating: newRating, review_id });
-    onClose();
   };
 
   return (

@@ -6,7 +6,7 @@ import {
   AlertIcon,
   AlertTitle,
   Button,
-  Flex,
+  Card,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -15,6 +15,7 @@ import {
   Link,
   Text,
   chakra,
+  useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -38,11 +39,20 @@ export const RegisterForm = () => {
 
   const router = useRouter();
 
+  const toast = useToast();
+
   const { trigger, error: apiError } = useSWRMutation(
     swrKeys.register,
     mutator,
     {
       onSuccess: () => {
+        toast({
+          title: "Account created.",
+          description: "We've created your account for you.",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
         router.push("/login");
       },
     }
@@ -61,7 +71,7 @@ export const RegisterForm = () => {
 
   return (
     <>
-      <Flex
+      <Card
         direction="column"
         gap={3}
         alignItems="center"
@@ -150,7 +160,7 @@ export const RegisterForm = () => {
             Login
           </Link>
         </Text>
-      </Flex>
+      </Card>
     </>
   );
 };
