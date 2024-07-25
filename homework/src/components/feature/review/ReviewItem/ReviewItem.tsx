@@ -35,7 +35,7 @@ export const ReviewItem = ({
     <Box
       display={"flex"}
       alignItems={"center"}
-      bg={"whiteAlpha.100"}
+      bg={"whiteAlpha.300"}
       borderRadius={"lg"}
       padding={4}
       marginY={2}

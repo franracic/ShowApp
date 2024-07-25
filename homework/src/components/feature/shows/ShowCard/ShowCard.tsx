@@ -15,28 +15,18 @@ export const ShowCard = ({
     <Card
       as={NextLink}
       href={`/all-shows/${id}`}
-      p={2}
-      border={"1px solid black"}
-      borderRadius={"2xl"}
-      boxShadow={"md"}
-      bg={"whiteAlpha.100"}
-      maxW={"100%"}
-      w={"700px"}
+      variant={"secondary"}
       data-testid="show-card"
     >
       <Image
-        alignSelf={"center"}
-        width={"100%"}
-        maxH={"400px"}
-        borderRadius={"lg"}
+        borderTopRadius={"containerRadius"}
         src={image_url || placeholderImage}
         alt={title}
         data-testid="placeholder"
+        h={400}
       />
-      <Flex direction={"column"} alignItems={"center"}>
-        <Heading as="h2" size="lg" padding={4} color={"white"}>
-          {title}
-        </Heading>
+      <Flex direction={"column"} p={3}>
+        <Heading>{title}</Heading>
         <ReviewStarsValue value={average_rating} />
       </Flex>
     </Card>

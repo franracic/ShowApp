@@ -24,9 +24,7 @@ export const ReviewStarsInput = ({
             key={index}
             boxSize={6}
             cursor="pointer"
-            color={
-              starValue <= (hoverValue ?? value) ? "blue.100" : "whiteAlpha.500"
-            }
+            color={starValue <= (hoverValue ?? value) ? "" : "whiteAlpha.500"}
             onClick={() => onChange(starValue)}
             onMouseEnter={() => setHoverValue(starValue)}
             onMouseLeave={() => setHoverValue(null)}

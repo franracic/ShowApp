@@ -72,17 +72,12 @@ export const RegisterForm = () => {
   return (
     <>
       <Card
-        direction="column"
         gap={3}
         alignItems="center"
-        color={"white"}
         p={4}
-        border={"1px solid black"}
-        borderRadius={"2xl"}
-        boxShadow={"md"}
-        bg={"whiteAlpha.100"}
         maxW={"700px"}
         w={"100%"}
+        h={"fit-content"}
       >
         <Heading as="h2">Register</Heading>
         {apiError && (
@@ -147,7 +142,6 @@ export const RegisterForm = () => {
 
           <Button
             type="submit"
-            colorScheme="blue"
             isLoading={isSubmitting}
             loadingText="Submitting"
           >

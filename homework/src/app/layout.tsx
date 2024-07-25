@@ -18,11 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className} style={{ backgroundColor: "#111827" }}>
+      <body className={inter.className}>
         <Providers>
-          <Flex>
+          <Flex direction={["column", "row", "row"]} minHeight="100vh">
             <SidebarNavigation />
-            <Flex flex="1" ml="max(10vw,100px)" justifyContent={"center"} p={4}>
+            <Flex flex="1" justifyContent={"center"} p={4}>
               {children}
             </Flex>
           </Flex>

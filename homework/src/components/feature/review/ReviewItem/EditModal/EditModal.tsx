@@ -15,8 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { mutate } from "swr";
-import { ReviewStarsInput } from "../../ReviewStars/ReviewStarsInput";
 import useSWRMutation from "swr/mutation";
+import { ReviewStarsInput } from "../../ReviewStars/ReviewStarsInput";
 
 interface IEditModal {
   isOpen: boolean;
@@ -51,8 +51,11 @@ export const EditModal = ({
   const { trigger } = useSWRMutation(
     swrKeys.deleteReview(review_id),
     async () => {
-      await 
-      changeReview({ comment: editedComment, rating: newRating, review_id });
+      await changeReview({
+        comment: editedComment,
+        rating: newRating,
+        review_id,
+      });
     },
     {
       onSuccess: () => {
@@ -70,7 +73,6 @@ export const EditModal = ({
     }
   };
 
-
   const changeReview = async ({
     comment,
     rating,
@@ -87,7 +89,7 @@ export const EditModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent bgColor={"blue.900"} color={"white"}>
+      <ModalContent bgColor={"purpleDark"} color={"white"}>
         <ModalHeader data-testid="edit-modal">Edit Review</ModalHeader>
         <ModalCloseButton />
 
@@ -113,7 +115,7 @@ export const EditModal = ({
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+          <Button mr={3} onClick={handleSubmit}>
             Change
           </Button>
         </ModalFooter>
