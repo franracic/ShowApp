@@ -90,6 +90,7 @@ export const LoginForm = () => {
           alignItems="center"
           gap={3}
           onSubmit={handleSubmit(onLogin)}
+          data-testid="login-form"
         >
           <FormControl isRequired isInvalid={!!errors.email}>
             <FormLabel>Email</FormLabel>
@@ -98,6 +99,7 @@ export const LoginForm = () => {
                 required: "Email is required",
               })}
               type="email"
+              placeholder="Enter email"
               disabled={isSubmitting}
             />
             {errors.email && (
@@ -127,6 +129,7 @@ export const LoginForm = () => {
             colorScheme="blue"
             isLoading={isSubmitting}
             loadingText="Submitting"
+            data-testid="login-button"
           >
             Log in
           </Button>

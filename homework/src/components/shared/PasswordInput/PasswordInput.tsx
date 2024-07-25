@@ -6,11 +6,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 interface IPasswordInputProps {
   disabled?: boolean;
   error?: string;
-  register?: any;
+  register?: UseFormRegisterReturn;
 }
 
 export const PasswordInput = ({
