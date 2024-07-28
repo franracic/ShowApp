@@ -1,18 +1,23 @@
-import { fetcher } from '@/fetchers/fetcher';
-import { IShow } from '@/typings/show';
+import { fetcher } from "@/fetchers/fetcher";
+import { IShow } from "@/typings/show";
+import { swrKeys } from "./swrKeys";
 
 interface IShowsResponse {
-    shows: Array<IShow>;
+  shows: Array<IShow>;
+}
+
+interface IShowFetchResponse {
+  show: IShow;
 }
 
 export function getShows() {
-  return fetcher<IShowsResponse>('/api/shows');
+  return fetcher<IShowsResponse>(swrKeys.listShows);
 }
 
 export function getTopRatedShows() {
-  return fetcher<IShowsResponse>('/api/shows/top-rated');
+  return fetcher<IShowsResponse>(swrKeys.topRatedShows);
 }
 
 export function getShow(id: string) {
-  return fetcher<IShow>(`/api/shows/${id}`);
+  return fetcher<IShowFetchResponse>(swrKeys.show(id));
 }

@@ -1,4 +1,4 @@
-import { IReview } from "@/typings/show";
+import { INewReview } from "@/typings/show";
 import { Box, Button, Flex, Text, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
 import { ReviewStarsInput } from "../../review/ReviewStars/ReviewStarsInput";
@@ -8,8 +8,10 @@ const temporaryAvatar = undefined;
 
 export const ReviewForm = ({
   addShowReview,
+  id,
 }: {
-  addShowReview: (review: IReview) => void;
+  addShowReview: (review: INewReview) => void;
+  id: string;
 }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -22,10 +24,9 @@ export const ReviewForm = ({
     }
     setIsRatingValid(true);
     addShowReview({
-      email: temporaryEmail,
-      avatar: temporaryAvatar,
       rating,
       comment,
+      show_id: id,
     });
     setRating(0);
     setComment("");

@@ -3,17 +3,29 @@ import { render, screen } from "@testing-library/react";
 import { ReviewItem } from "./ReviewItem";
 
 describe("ReviewItem", () => {
+  beforeEach(() => {
+    jest.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
+      return JSON.stringify({
+        uid: "test@example.com",
+      });
+    });
+  });
+
   const mockReview = {
-    email: "fran.racic@gmail.com",
-    avatar: "https://fakeimg.pl/600x400?text=Test+Show",
-    rating: 3.32,
-    comment: "Some Comment",
+    user: {
+      email: "test@example.com",
+      avatar: "https://example.com/avatar.jpg",
+    },
+    rating: 5,
+    comment: "Great show!",
     deleteShowReview: jest.fn(),
+    show_id: "1",
+    id: "42",
   };
 
   it("should render correct user email", () => {
     render(<ReviewItem {...mockReview} />);
-    const email = screen.getByText(mockReview.email);
+    const email = screen.getByText(mockReview.user.email);
 
     expect(email).toBeInTheDocument();
   });
@@ -33,24 +45,26 @@ describe("ReviewItem", () => {
     expect(comment).toBeInTheDocument();
   });
 
-  it("should render delete button", () => {
+  it("should render edit button and delete button", () => {
     render(<ReviewItem {...mockReview} />);
+    const editButton = screen.getByRole("button", { name: "Edit" });
     const deleteButton = screen.getByRole("button", { name: "Delete" });
 
+    expect(editButton).toBeInTheDocument();
     expect(deleteButton).toBeInTheDocument();
   });
 
-  it("should call onDelete callback with necessary data", () => {
-    render(<ReviewItem {...mockReview} />);
-    const deleteButton = screen.getByRole("button", { name: "Delete" });
-    deleteButton.click();
+  it("should not render edit button and delete button if user is not the author", () => {
+    render(
+      <ReviewItem
+        {...mockReview}
+        user={{ email: "test@gmail.com", avatar: "" }}
+      />
+    );
+    const editButton = screen.queryByRole("button", { name: "Edit" });
+    const deleteButton = screen.queryByRole("button", { name: "Delete" });
 
-    expect(mockReview.deleteShowReview).toHaveBeenCalledTimes(1);
-    expect(mockReview.deleteShowReview).toHaveBeenCalledWith({
-      email: mockReview.email,
-      avatar: mockReview.avatar,
-      rating: mockReview.rating,
-      comment: mockReview.comment,
-    });
+    expect(editButton).not.toBeInTheDocument();
+    expect(deleteButton).not.toBeInTheDocument();
   });
 });

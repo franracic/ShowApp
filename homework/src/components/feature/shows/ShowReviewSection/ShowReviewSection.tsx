@@ -1,27 +1,27 @@
 "use client";
-import { IReview } from "@/typings/show";
+import { INewReview, IReview } from "@/typings/show";
 import { Box, Heading } from "@chakra-ui/react";
 import { ReviewList } from "../../review/ReviewList/ReviewList";
 import { ReviewForm } from "../ReviewForm/ReviewForm";
 
 interface IShowReviewSection {
-  addShowReview: (review: IReview) => void;
   reviews: IReview[];
-  deleteShowReview: (review: IReview) => void;
+  addShowReview: (review: INewReview) => void;
+  id: string;
 }
 
 export const ShowReviewSection = ({
-  addShowReview,
   reviews,
-  deleteShowReview,
+  addShowReview,
+  id,
 }: IShowReviewSection) => {
   return (
-    <Box maxW={"100%"} w={"700px"} p={1} m={3}>
-      <Heading as="h3" size="lg">
+    <Box maxW={"100%"} w={"700px"} p={1} m={3} color={"white"}>
+      <Heading as="h3" size="lg" color={"white"}>
         Reviews
       </Heading>
-      <ReviewForm addShowReview={addShowReview} />
-      <ReviewList reviews={reviews} deleteShowReview={deleteShowReview} />
+      <ReviewForm addShowReview={addShowReview} id={id} />
+      <ReviewList reviews={reviews} show_id={id} />
     </Box>
   );
 };

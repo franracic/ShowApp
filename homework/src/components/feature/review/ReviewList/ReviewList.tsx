@@ -4,16 +4,15 @@ import { ReviewItem } from "../ReviewItem/ReviewItem";
 
 export const ReviewList = ({
   reviews,
-  deleteShowReview,
+  show_id,
 }: {
   reviews: IReview[];
-  deleteShowReview: (review: IReview) => void;
+  show_id: string;
 }) => {
-
   return (
     <Box>
       {reviews.map((review, index) => (
-        <ReviewItem key={index} {...review} deleteShowReview={deleteShowReview} />
+        <ReviewItem key={index} show_id={show_id} {...review} />
       ))}
     </Box>
   );

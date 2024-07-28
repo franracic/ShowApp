@@ -1,40 +1,37 @@
-import "@testing-library/jest-dom";
+import { IShow } from "@/typings/show";
 import { render } from "@testing-library/react";
+import { ShowCard } from "../ShowCard/ShowCard";
 import { ShowsList } from "./ShowsList";
 
-describe("ShowsList", () => {
-  const mockShows = [
+jest.mock("../ShowCard/ShowCard", () => {
+  return {
+    ShowCard: jest.fn().mockReturnValue(null),
+  };
+});
+
+describe("ShowList", () => {
+  const mockShows: Array<IShow> = [
     {
-      title: "Test Show 1",
-      average_rating: 4.5,
-      image_url: "https://fakeimg.pl/600x400?text=Test+Show+1",
       id: "1",
-      description: "Some Description",
+      title: "Show 1",
+      description: "Description 1",
+      average_rating: 4,
+      image_url: "image1.jpg",
     },
     {
-      title: "Test Show 2",
-      average_rating: undefined,
-      image_url: "https://fakeimg.pl/600x400?text=Test+Show+2",
       id: "2",
-      description: "Some Description",
+      title: "Show 2",
+      description: "Description 2",
+      average_rating: 3,
+      image_url: "image2.jpg",
     },
   ];
-  it("should render all provided shows", () => {
+
+  it("should call ShowCard with correct props", () => {
     render(<ShowsList shows={mockShows} />);
-    const showCards = document.querySelectorAll("[data-testid='show-card']");
-    console.log(mockShows.length, showCards.length);
-    expect(showCards.length).toBe(mockShows.length);
-    Array.from(showCards).map((showCard, index) => {
-      expect(showCard).toHaveTextContent(
-        mockShows[index].title +
-          (mockShows[index].average_rating
-            ? `${mockShows[index].average_rating.toFixed(2)}/5`
-            : "No Ratings")
-      );
-      expect(showCard).toHaveAttribute(
-        "href",
-        `/all-shows/${mockShows[index].id}`
-      );
-    });
+
+    expect(ShowCard).toHaveBeenCalledTimes(2);
+    expect(ShowCard).toHaveBeenNthCalledWith(1, { ...mockShows[0] }, {});
+    expect(ShowCard).toHaveBeenNthCalledWith(2, { ...mockShows[1] }, {});
   });
 });
