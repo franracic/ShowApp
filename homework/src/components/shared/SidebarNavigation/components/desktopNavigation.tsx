@@ -1,4 +1,5 @@
 "use client";
+import { ShowPicker } from "@/components/feature/show-picker/ShowPicker/ShowPicker";
 import { fetcher } from "@/fetchers/fetcher";
 import { swrKeys } from "@/fetchers/swrKeys";
 import { Button, Flex, Heading, Stack } from "@chakra-ui/react";
@@ -61,7 +62,10 @@ export const DesktopNavigation = () => {
                 {item.label}
               </Button>
             ))}
+
+            <ShowPicker />
           </Stack>
+
           <Button
             mt={"auto"}
             colorScheme="red"

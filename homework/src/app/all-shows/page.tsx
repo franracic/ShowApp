@@ -19,8 +19,7 @@ export default function Page() {
   if (isLoading || !data || !data.shows) {
     return (
       <>
-        <Spinner
-        />
+        <Spinner />
       </>
     );
   }
