@@ -1,7 +1,5 @@
-import { ChakraProvider } from "@chakra-ui/react";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { SWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 import { LoginForm } from "./LoginForm";
 
@@ -33,13 +31,7 @@ describe("LoginForm", () => {
     const trigger = jest.fn();
     (useSWRMutation as jest.Mock).mockReturnValue({ trigger });
 
-    render(
-      <SWRConfig value={{ dedupingInterval: 0 }}>
-        <ChakraProvider>
-          <LoginForm />
-        </ChakraProvider>
-      </SWRConfig>
-    );
+    render(<LoginForm />);
 
     const emailInput = screen.getByPlaceholderText("Enter email");
     const passwordInput = screen.getByPlaceholderText("Password");
