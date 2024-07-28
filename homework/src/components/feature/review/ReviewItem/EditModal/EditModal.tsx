@@ -12,11 +12,12 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { mutate } from "swr";
-import { ReviewStarsInput } from "../../ReviewStars/ReviewStarsInput";
 import useSWRMutation from "swr/mutation";
+import { ReviewStarsInput } from "../../ReviewStars/ReviewStarsInput";
 
 interface IEditModal {
   isOpen: boolean;
@@ -44,6 +45,8 @@ export const EditModal = ({
   const [editedComment, setEditedComment] = useState(comment);
   const [newRating, setNewRating] = useState(rating);
 
+  const toast = useToast();
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEditedComment(event.target.value);
   };
@@ -51,25 +54,29 @@ export const EditModal = ({
   const { trigger } = useSWRMutation(
     swrKeys.deleteReview(review_id),
     async () => {
-      await 
-      changeReview({ comment: editedComment, rating: newRating, review_id });
+      await changeReview({
+        comment: editedComment,
+        rating: newRating,
+        review_id,
+      });
     },
     {
       onSuccess: () => {
         mutate(swrKeys.listReviews(show_id));
         onClose();
       },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description:
+            "There was an error editing your review. Please try again.",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      },
     }
   );
-
-  const handleSubmit = async () => {
-    try {
-      await trigger();
-    } catch (error) {
-      console.error("Error editing review:", error);
-    }
-  };
-
 
   const changeReview = async ({
     comment,
@@ -113,7 +120,7 @@ export const EditModal = ({
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+          <Button colorScheme="blue" mr={3} onClick={() => trigger()}>
             Change
           </Button>
         </ModalFooter>

@@ -1,50 +1,61 @@
-import { mutator } from "@/fetchers/mutators";
+import { ChakraProvider } from "@chakra-ui/react";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { SWRConfig } from "swr";
+import useSWRMutation from "swr/mutation";
 import { LoginForm } from "./LoginForm";
 
-// jest.mock("@/fetchers/mutators", () => {
-//   return {
-//     mutator: jest.fn().mockResolvedValue(null),
-//   };
-// });
+jest.mock("swr/mutation");
 
-describe("Login Form", () => {
+describe("LoginForm", () => {
   it("should render email input field", () => {
-    render(<LoginForm />);
+    (useSWRMutation as jest.Mock).mockReturnValue({
+      trigger: jest.fn(),
+    });
 
-    const email = screen.getAllByPlaceholderText("Enter email")[0];
-    expect(email).toBeInTheDocument();
+    render(<LoginForm />);
+    const emailInput = screen.getByPlaceholderText("Enter email");
+    expect(emailInput).toBeInTheDocument();
   });
 
   it("should render password input field", () => {
+    (useSWRMutation as jest.Mock).mockReturnValue({
+      trigger: jest.fn(),
+    });
+
     render(<LoginForm />);
 
-    const password = screen.getByPlaceholderText("Password");
-    expect(password).toBeInTheDocument();
+    const passwordInput = screen.getByPlaceholderText("Password");
+    expect(passwordInput).toBeInTheDocument();
   });
-  
 
-  // it("should render button and submit on clicking", async () => {
-  //   render(<LoginForm />);
-  //   const button = screen.getByTestId("login-button");
-  //   expect(button).toBeInTheDocument();
+  it("should render button and submit on clicking", async () => {
+    const trigger = jest.fn();
+    (useSWRMutation as jest.Mock).mockReturnValue({ trigger });
 
-  //   const email = screen.getByPlaceholderText("Enter email");
-  //   fireEvent.change(email, { target: { value: "fran@gmail.com" } });
+    render(
+      <SWRConfig value={{ dedupingInterval: 0 }}>
+        <ChakraProvider>
+          <LoginForm />
+        </ChakraProvider>
+      </SWRConfig>
+    );
 
-  //   const password = screen.getByPlaceholderText("Password");
+    const emailInput = screen.getByPlaceholderText("Enter email");
+    const passwordInput = screen.getByPlaceholderText("Password");
+    const loginButton = screen.getByTestId("login-button");
 
-  //   fireEvent.change(password, { target: { value: "test" } });
+    expect(loginButton).toBeInTheDocument();
 
-  //   fireEvent.click(button);
+    fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+    fireEvent.change(passwordInput, { target: { value: "password123" } });
+    fireEvent.click(loginButton);
 
-  //   await waitFor(() => {
-  //     expect(mutator).toHaveBeenCalledWith({
-  //       email: "fran@gmail.com",
-  //       password: "test",
-  //     });
-  //     expect(mutator).toHaveBeenCalledTimes(1);
-  //   });
-  // });
+    await waitFor(() => {
+      expect(trigger).toHaveBeenCalledWith({
+        email: "test@example.com",
+        password: "password123",
+      });
+    });
+  });
 });
