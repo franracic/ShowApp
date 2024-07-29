@@ -1,11 +1,10 @@
 "use client";
-import { ShowPicker } from "@/components/feature/show-picker/ShowPicker/ShowPicker";
 import { fetcher } from "@/fetchers/fetcher";
 import { swrKeys } from "@/fetchers/swrKeys";
-import { Button, Flex, Heading, Stack } from "@chakra-ui/react";
-import NextLink from "next/link";
+import { Button, VStack } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import useSWR, { mutate } from "swr";
+import { NavigationMenu } from "./NavigationMenu";
 
 const navigationButtons = [
   {
@@ -35,47 +34,25 @@ export const DesktopNavigation = () => {
   const { data, isLoading } = useSWR(swrKeys.currentUser, fetcher);
 
   return (
-    <Flex
-      height={"100vh"}
-      direction={"column"}
-      position="sticky"
-      p={1}
-      top="0"
-      left="0"
-      maxW={"300px"}
-      minW={"100px"}
+    <VStack
+      hideBelow="md"
+      flexGrow={1}
+      alignItems="flex-start"
+      justifyContent="space-between"
     >
-      {!isLoading && data ? (
-        <>
-          <Stack direction={"column"}>
-            <Heading size={"l"} color={"white"} mb={8}>
-              Tv shows APP
-            </Heading>
-            {navigationButtons.map((item) => (
-              <Button
-                key={item.href}
-                as={NextLink}
-                href={item.href}
-                variant={pathname.startsWith(item.href) ? "solid" : "ghost"}
-                colorScheme="whiteAlpha"
-              >
-                {item.label}
-              </Button>
-            ))}
+      <NavigationMenu />
 
-            <ShowPicker />
-          </Stack>
-
-          <Button
-            mt={"auto"}
-            colorScheme="red"
-            variant="outline"
-            onClick={logout}
-          >
-            Log Out
-          </Button>
-        </>
-      ) : null}
-    </Flex>
+      <Button
+        variant="dark"
+        onClick={() => {
+          localStorage.removeItem("authData");
+          mutate(swrKeys.currentUser, null, {
+            revalidate: false,
+          });
+        }}
+      >
+        Log out
+      </Button>
+    </VStack>
   );
 };

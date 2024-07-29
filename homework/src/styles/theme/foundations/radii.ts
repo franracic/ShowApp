@@ -3,4 +3,5 @@ export const radii = {
   buttonRadius: "24px",
   containerRadius: "16px",
   ratingRadius: "10px",
+  modalRadius: "16px",
 };

@@ -2,7 +2,7 @@
 import { ShowsList } from "@/components/feature/shows/ShowsList/ShowsList";
 import { getTopRatedShows } from "@/fetchers/show";
 import { swrKeys } from "@/fetchers/swrKeys";
-import { Heading, Spinner } from "@chakra-ui/react";
+import { Heading, Spinner, VStack } from "@chakra-ui/react";
 import useSWR from "swr";
 
 export default function Page() {
@@ -25,8 +25,9 @@ export default function Page() {
 
   if (isLoading || !data || !data.shows) {
     return (
-      <Spinner
-      />
+      <VStack py={16}>
+        <Spinner size="xl" />
+      </VStack>
     );
   }
 

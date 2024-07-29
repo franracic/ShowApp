@@ -1,5 +1,5 @@
 import { SidebarNavigation } from "@/components/shared/SidebarNavigation/SidebarNavigation";
-import { Flex } from "@chakra-ui/react";
+import { Box, Container, Stack } from "@chakra-ui/react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from "./providers";
@@ -17,17 +17,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <Box as="html" lang="en" height="100%">
+      <Box as="body" height="100%">
         <Providers>
-          <Flex direction={["column", "row", "row"]} minHeight="100vh">
+          <Stack
+            direction={{
+              base: "column",
+              md: "row",
+            }}
+            spacing={4}
+            alignItems="stretch"
+            height="100%"
+          >
             <SidebarNavigation />
-            <Flex flex="1" justifyContent={"center"} p={4}>
-              {children}
-            </Flex>
-          </Flex>
+            <Box flexGrow={1} overflowY="auto">
+              <Container maxW="container.2xl" padding={8}>
+                {children}
+              </Container>
+            </Box>
+          </Stack>
         </Providers>
-      </body>
-    </html>
+      </Box>
+    </Box>
   );
 }

@@ -1,9 +1,14 @@
 import { IReview } from "@/typings/show";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import {
   Avatar,
   Box,
   Button,
   Flex,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuList,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -35,7 +40,7 @@ export const ReviewItem = ({
     <Box
       display={"flex"}
       alignItems={"center"}
-      bg={"whiteAlpha.300"}
+      bg={"purpleBase"}
       borderRadius={"lg"}
       padding={4}
       marginY={2}
@@ -45,23 +50,37 @@ export const ReviewItem = ({
         <Text fontSize={"sm"} color={"gray.400"}>
           {user.email}
         </Text>
-        <Text fontSize={"lg"}>{comment}</Text>
         <ReviewStarsValue value={rating} />
       </Box>
+      <Text fontSize={"lg"} pl={5}>
+        {comment}
+      </Text>
       {uid === user.email && (
         <>
           <Flex direction="column" ml={"auto"} gap={4}>
-            <DeleteModal review_id={id} show_id={show_id} />
-            <Button
-              colorScheme="blue"
-              size={"xs"}
-              ml="auto"
-              onClick={onOpen}
-              w={"100%"}
-              name="edit"
-            >
-              Edit
-            </Button>
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<HamburgerIcon />}
+                variant="transparent"
+              />
+              <MenuList>
+                <Button
+                  onClick={onOpen}
+                  size={"xs"}
+                  ml="auto"
+                  w={"100%"}
+                  mb={2}
+                  name="edit"
+                  color={"purpleLight"}
+                >
+                  Edit
+                </Button>
+
+                <DeleteModal review_id={id} show_id={show_id} />
+              </MenuList>
+            </Menu>
           </Flex>
           <EditModal
             isOpen={isOpen}

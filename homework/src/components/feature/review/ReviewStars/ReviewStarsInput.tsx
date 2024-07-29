@@ -1,5 +1,5 @@
 import { StarIcon } from "@chakra-ui/icons";
-import { Box } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useState } from "react";
 
 interface IReviewStarsInput {
@@ -8,29 +8,35 @@ interface IReviewStarsInput {
   onChange: (value: number) => void;
 }
 
-export const ReviewStarsInput = ({
-  value,
-  onChange,
-  label,
-}: IReviewStarsInput) => {
+export const ReviewStarsInput = ({ value, onChange }: IReviewStarsInput) => {
   const [hoverValue, setHoverValue] = useState<number | null>(null);
 
   return (
-    <Box mb={3} id={label} data-testid="rating-input">
-      {Array.from({ length: 5 }, (_, index) => {
-        const starValue = index + 1;
-        return (
-          <StarIcon
-            key={index}
-            boxSize={6}
-            cursor="pointer"
-            color={starValue <= (hoverValue ?? value) ? "" : "whiteAlpha.500"}
-            onClick={() => onChange(starValue)}
-            onMouseEnter={() => setHoverValue(starValue)}
-            onMouseLeave={() => setHoverValue(null)}
-          />
-        );
-      })}
-    </Box>
+    <Flex gap={5} alignItems="center" data-testid="rating-input">
+      <Flex
+        alignItems="center"
+        gap={1}
+        onMouseLeave={() => setHoverValue(null)}
+      >
+        {Array.from({ length: 5 }, (_, index) => {
+          const starValue = index + 1;
+          const isChecked = index < value;
+          const isHovered = hoverValue !== null && index < hoverValue;
+
+          const color = isChecked || isHovered ? "yellow.400" : "gray.300";
+
+          return (
+            <StarIcon
+              key={index}
+              boxSize={6}
+              cursor="pointer"
+              color={color}
+              onClick={() => onChange(starValue)}
+              onMouseEnter={() => setHoverValue(starValue)}
+            />
+          );
+        })}
+      </Flex>
+    </Flex>
   );
 };

@@ -1,12 +1,15 @@
 import {
-  Button,
+  Icon,
+  IconButton,
   Input,
   InputGroup,
+  InputLeftElement,
   InputRightElement,
   Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
+import { MdLock, MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 interface IPasswordInputProps {
   disabled?: boolean;
@@ -24,7 +27,10 @@ export const PasswordInput = ({
 
   return (
     <>
-      <InputGroup size="md">
+      <InputGroup variant={"dark"} size="md">
+        <InputLeftElement>
+          <Icon as={MdLock} boxSize={6} />
+        </InputLeftElement>
         <Input
           type={show ? "text" : "password"}
           placeholder="Password"
@@ -32,10 +38,17 @@ export const PasswordInput = ({
           {...register}
         />
 
-        <InputRightElement width="4.5rem">
-          <Button size="sm" onClick={handleClick} disabled={disabled}>
-            {show ? "Hide" : "Show"}
-          </Button>
+        <InputRightElement>
+          <IconButton
+            aria-label={`toggle password visibility`}
+            onClick={handleClick}
+            variant="dark"
+            fontSize={20}
+            marginRight={4}
+            disabled={disabled}
+          >
+            {show ? <MdVisibilityOff /> : <MdVisibility />}
+          </IconButton>
         </InputRightElement>
       </InputGroup>
 

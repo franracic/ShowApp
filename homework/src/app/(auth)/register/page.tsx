@@ -1,11 +1,10 @@
 import { RegisterForm } from "@/components/feature/auth/RegisterForm/RegisterForm";
-import { AuthRedirect } from "@/components/shared/AuthRedirect/AuthRedirect";
+import { Container } from "@chakra-ui/react";
 
 export default function Login() {
   return (
-    <>
-      <AuthRedirect to="/all-shows" condition="loggedIn" />
-      <RegisterForm />;
-    </>
+    <Container maxHeight="100%">
+      <RegisterForm />
+    </Container>
   );
 }

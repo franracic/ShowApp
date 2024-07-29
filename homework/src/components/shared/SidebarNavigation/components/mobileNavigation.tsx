@@ -8,17 +8,14 @@ import {
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
+  DrawerFooter,
   DrawerOverlay,
-  Flex,
-  Heading,
   IconButton,
-  Stack,
   useDisclosure,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
 import useSWR, { mutate } from "swr";
+import { NavigationMenu } from "./NavigationMenu";
 
 const navigationButtons = [
   {
@@ -47,61 +44,53 @@ export const MobileNavigation = () => {
 
   const { data, isLoading } = useSWR(swrKeys.currentUser, fetcher);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef<HTMLButtonElement>(null);
+  const { isOpen, onToggle, onClose } = useDisclosure();
 
   if (isLoading || !data) {
     return null;
   }
 
   return (
-    <Flex p={4} w={"100%"} justifyContent={"space-between"}>
-      <Heading color={"white"} pr={3}>
-        Tv shows APP
-      </Heading>
+    <>
       <IconButton
-        aria-label="Open navigation"
-        icon={<HamburgerIcon />}
-        onClick={onOpen}
-        ref={btnRef}
-      />
+        aria-label="open sidebar"
+        color={"white"}
+        variant={"transparent"}
+        fontSize="24px"
+        onClick={onToggle}
+      >
+        <HamburgerIcon />
+      </IconButton>
+
       <Drawer
         isOpen={isOpen}
-        placement={"left"}
+        placement="right"
         onClose={onClose}
-        finalFocusRef={btnRef}
-        isFullHeight={true}
+        variant={"purple"}
       >
         <DrawerOverlay />
         <DrawerContent bg={"purpleDark"}>
-          <DrawerCloseButton bg={"white"} />
-          <DrawerBody>
-            <Stack direction={"column"} mt={10}>
-              {navigationButtons.map((item) => (
-                <Button
-                  key={item.href}
-                  as={NextLink}
-                  href={item.href}
-                  variant={pathname.startsWith(item.href) ? "solid" : "ghost"}
-                  colorScheme="whiteAlpha"
-                >
-                  {item.label}
-                </Button>
-              ))}
-              <Button
-                colorScheme="red"
-                variant="outline"
-                onClick={() => {
-                  logout();
-                  onClose();
-                }}
-              >
-                Log Out
-              </Button>
-            </Stack>
+          <DrawerCloseButton />
+
+          <DrawerBody marginTop="80px">
+            <NavigationMenu onSelect={onClose} />
           </DrawerBody>
+
+          <DrawerFooter justifyContent="flex-start" marginBottom="50px">
+            <Button
+              variant="dark"
+              onClick={() => {
+                localStorage.removeItem("authData");
+                mutate(swrKeys.currentUser, null, {
+                  revalidate: false,
+                });
+              }}
+            >
+              Log out
+            </Button>
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
-    </Flex>
+    </>
   );
 };

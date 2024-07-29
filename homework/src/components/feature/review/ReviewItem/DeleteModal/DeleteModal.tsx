@@ -47,8 +47,8 @@ export const DeleteModal = ({
     <>
       <Button
         onClick={onOpen}
-        colorScheme="red"
         size={"xs"}
+        color={"purpleLight"}
         ml="auto"
         w={"100%"}
         name="delete"

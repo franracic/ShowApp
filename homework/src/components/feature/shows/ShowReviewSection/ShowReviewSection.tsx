@@ -1,6 +1,6 @@
 "use client";
 import { INewReview, IReview } from "@/typings/show";
-import { Box, Heading } from "@chakra-ui/react";
+import { Heading, Stack, VStack } from "@chakra-ui/react";
 import { ReviewList } from "../../review/ReviewList/ReviewList";
 import { ReviewForm } from "../ReviewForm/ReviewForm";
 
@@ -16,12 +16,22 @@ export const ShowReviewSection = ({
   id,
 }: IShowReviewSection) => {
   return (
-    <Box maxW={"100%"} w={"700px"} p={1} m={3} color={"white"}>
-      <Heading as="h3" size="lg" color={"white"}>
-        Reviews
-      </Heading>
-      <ReviewForm addShowReview={addShowReview} id={id} />
-      <ReviewList reviews={reviews} show_id={id} />
-    </Box>
+    <Stack
+      direction={{
+        base: "column",
+        md: "row",
+      }}
+      alignItems="stretch"
+      spacing={{
+        base: 4,
+        md: 24,
+      }}
+    >
+      <Heading size="lg">Reviews</Heading>
+      <VStack flexGrow={1} alignItems="stretch" spacing={16}>
+        <ReviewForm addShowReview={addShowReview} id={id} />
+        <ReviewList reviews={reviews} show_id={id} />
+      </VStack>
+    </Stack>
   );
 };
