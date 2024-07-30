@@ -1,14 +1,22 @@
-import { Progress } from '@chakra-ui/react';
-import { useContext } from 'react';
-import { PickerContext } from './PickerContextProvider';
+import { Heading, Progress } from "@chakra-ui/react";
+import { useContext } from "react";
+import { PickerContext } from "./PickerContextProvider";
 
 export const PickerProgress = () => {
-	const { currentStep, showList } = useContext(PickerContext);
+  const { currentStep, showList, steps, totalSteps } =
+    useContext(PickerContext);
 
-	if (!showList) {
-		return null;
-	}
+  if (!showList || (showList?.length ?? 0) === 1) {
+    return null;
+  }
+  const progress = ((currentStep + totalSteps) / steps) * 100;
 
-	const progress = (currentStep / showList.length) * 100;
-	return <Progress value={progress} />;
+  return (
+    <>
+      <Heading size="sm">
+        Step {currentStep + 1 + totalSteps} of {steps}
+      </Heading>
+      <Progress value={progress} />
+    </>
+  );
 };

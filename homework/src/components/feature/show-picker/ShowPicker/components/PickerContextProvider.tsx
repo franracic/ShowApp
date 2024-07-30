@@ -6,6 +6,7 @@ import {
   Dispatch,
   ReactNode,
   SetStateAction,
+  useEffect,
   useState,
 } from "react";
 import useSWR from "swr";
@@ -16,6 +17,11 @@ interface IPickerContext {
   selectedShows: Array<IShow>;
   setSelectedShows: Dispatch<SetStateAction<Array<IShow>>>;
   showList?: Array<IShow>;
+  setShowList: Dispatch<SetStateAction<Array<IShow> | undefined>>;
+  setIsDataSet: Dispatch<SetStateAction<boolean>>;
+  steps: number;
+  totalSteps: number;
+  setTotalSteps: Dispatch<SetStateAction<number>>;
 }
 
 export const PickerContext = createContext<IPickerContext>(
@@ -30,7 +36,34 @@ export const PickerContextProvider = ({
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedShows, setSelectedShows] = useState<Array<IShow>>([]);
   const { data } = useSWR(swrKeys.listShows, getShows);
-  const showList = data?.shows;
+  const [showList, setShowList] = useState(data?.shows);
+  const [isDataSet, setIsDataSet] = useState(false);
+  const [steps, setSteps] = useState(0);
+  const [totalSteps, setTotalSteps] = useState(0);
+
+  useEffect(() => {
+    if (data?.shows && !isDataSet) {
+      setShowList(data.shows);
+      setIsDataSet(true);
+      let calculatedSteps = 0;
+      let length = data.shows.length ?? 0;
+      while (length > 1) {
+        length = Math.ceil(length / 3);
+        calculatedSteps += length;
+      }
+      setSteps(calculatedSteps);
+    }
+  }, [data?.shows, isDataSet]);
+
+  useEffect(() => {
+    const totalStepsNow = Math.ceil((showList?.length ?? 0) / 3);
+    if (currentStep > 0 && currentStep >= totalStepsNow) {
+      setShowList(selectedShows);
+      setSelectedShows([]);
+      setTotalSteps(totalSteps + currentStep);
+      setCurrentStep(0);
+    }
+  }, [currentStep, selectedShows, showList, totalSteps]);
 
   return (
     <PickerContext.Provider
@@ -40,6 +73,11 @@ export const PickerContextProvider = ({
         selectedShows,
         setSelectedShows,
         showList,
+        setShowList,
+        setIsDataSet,
+        steps,
+        totalSteps,
+        setTotalSteps,
       }}
     >
       {children}

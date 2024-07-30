@@ -3,6 +3,7 @@ import {
   Flex,
   Modal,
   ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
@@ -16,14 +17,23 @@ import { PickerStep } from "./components/PickerStep";
 
 export const ShowPicker = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <PickerContextProvider>
-      <Button onClick={onOpen} variant={"ghost"}>
+      <Button onClick={onOpen} variant={"dark"} alignSelf={"baseline"}>
         Show finder
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size={{
+          base: "full",
+          md: "3xl",
+        }}
+      >
         <ModalOverlay />
-        <ModalContent w={"100%"}>
+        <ModalContent>
+          <ModalCloseButton />
           <ModalHeader>Pick a show</ModalHeader>
           <ModalBody>
             <PickerStep />
