@@ -13,6 +13,8 @@ export default function ShowSection({
   reviews: IReview[];
   addShowReview: (review: INewReview) => void;
 }) {
+  const average_rating =
+    reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
   return (
     <Container maxW="100%" padding={8} p={0}>
       <VStack alignItems="stretch" spacing={24}>
