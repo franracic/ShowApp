@@ -44,19 +44,15 @@ export const NavigationMenu = ({ onSelect }: NavigationMenuProps) => {
 
         return (
           <Link key={href} href={href}>
-            <Tooltip
-              label={
-                containsNotification && hasNotification ? "Review added" : ""
-              }
+            <Button
+              variant={"dark"}
+              isActive={isActive}
+              onClick={onSelect}
+              position="relative"
             >
-              <Button
-                variant={"dark"}
-                isActive={isActive}
-                onClick={onSelect}
-                position="relative"
-              >
-                {label}
-                {containsNotification && hasNotification && (
+              {label}
+              {containsNotification && hasNotification && (
+                <Tooltip label="You have new reviews" aria-label="tooltip">
                   <Box
                     as={CheckCircleIcon}
                     position="absolute"
@@ -64,9 +60,9 @@ export const NavigationMenu = ({ onSelect }: NavigationMenuProps) => {
                     right="0"
                     color="yellow.500"
                   />
-                )}
-              </Button>
-            </Tooltip>
+                </Tooltip>
+              )}
+            </Button>
           </Link>
         );
       })}

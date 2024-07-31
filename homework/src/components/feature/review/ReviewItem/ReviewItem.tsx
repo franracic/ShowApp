@@ -16,17 +16,7 @@ import { ReviewStarsValue } from "../ReviewStars/ReviewStarsValue";
 import { DeleteModal } from "./DeleteModal/DeleteModal";
 import { EditModal } from "./EditModal/EditModal";
 
-interface IReviewItem extends IReview {
-  show_id: string;
-}
-
-export const ReviewItem = ({
-  rating,
-  comment,
-  user,
-  id,
-  show_id,
-}: IReviewItem) => {
+export const ReviewItem = ({ rating, comment, user, id, show_id }: IReview) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   let uid = "";
@@ -35,6 +25,7 @@ export const ReviewItem = ({
     const authHeader = JSON.parse(authHeaderString);
     uid = authHeader.uid;
   }
+
 
   return (
     <Box

@@ -11,7 +11,7 @@ export default function ShowSection({
 }: {
   show: IShow;
   reviews: IReview[];
-  addShowReview: (review: INewReview) => void;
+  addShowReview: (review: INewReview) => Promise<IReview|undefined>;
 }) {
   const average_rating =
     reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;

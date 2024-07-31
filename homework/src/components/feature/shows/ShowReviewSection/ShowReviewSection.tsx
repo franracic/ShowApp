@@ -6,7 +6,7 @@ import { ReviewForm } from "../ReviewForm/ReviewForm";
 
 interface IShowReviewSection {
   reviews: IReview[];
-  addShowReview: (review: INewReview) => void;
+  addShowReview: (review: INewReview) => Promise<IReview | undefined>;
   id: string;
 }
 

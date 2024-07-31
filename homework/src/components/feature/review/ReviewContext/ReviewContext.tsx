@@ -10,7 +10,7 @@ import {
 interface IReviewContext {
   hasNotification: boolean;
   setHasNotification: Dispatch<SetStateAction<boolean>>;
-  newReviews: Array<IReview>;
+  newReviews: IReview[];
   setNewReviews: Dispatch<SetStateAction<Array<IReview>>>;
 }
 

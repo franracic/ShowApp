@@ -3,7 +3,7 @@ import ShowSection from "@/components/feature/shows/ShowSection/ShowSection";
 import { getReviews, newReview } from "@/fetchers/reviews";
 import { getShow } from "@/fetchers/show";
 import { swrKeys } from "@/fetchers/swrKeys";
-import { INewReview } from "@/typings/show";
+import { INewReview, IReview } from "@/typings/show";
 import { Heading, Spinner, VStack } from "@chakra-ui/react";
 import { useParams } from "next/navigation";
 import useSWR, { mutate } from "swr";
@@ -22,10 +22,13 @@ export default function Page() {
     isLoading: reviewsLoading,
   } = useSWR(swrKeys.listReviews(id), () => getReviews(id));
 
-  const addShowReview = async (review: INewReview) => {
+  const addShowReview = async (
+    review: INewReview
+  ): Promise<IReview | undefined> => {
     try {
-      await newReview(review);
+      const createdReview = await newReview(review).then((res) => res?.review);
       mutate(swrKeys.listReviews(id));
+      return createdReview;
     } catch (error) {
       console.error("Error adding review:", error);
     }
