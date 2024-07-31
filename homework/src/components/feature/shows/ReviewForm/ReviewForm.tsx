@@ -1,3 +1,4 @@
+import { ReviewContext } from "@/components/feature/review/ReviewContext/ReviewContext";
 import { INewReview } from "@/typings/show";
 import {
   Box,
@@ -8,7 +9,7 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ReviewStarsInput } from "../../review/ReviewStars/ReviewStarsInput";
 
@@ -20,8 +21,8 @@ export const ReviewForm = ({
   id: string;
 }) => {
   const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
 
+  const { setHasNotification, setNewReviews } = useContext(ReviewContext);
   const onSubmit = (data: any) => {
     if (Number.isNaN(data.rating) || data.rating < 1 || data.rating > 5) {
       return;
@@ -31,6 +32,8 @@ export const ReviewForm = ({
       comment: data.comment,
       show_id: id,
     });
+    setHasNotification(true);
+
     setRating(0);
     setValue("comment", "");
     setValue("rating", 0);
