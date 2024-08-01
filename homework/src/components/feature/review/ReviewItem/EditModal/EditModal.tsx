@@ -12,7 +12,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { mutate } from "swr";
@@ -45,8 +44,6 @@ export const EditModal = ({
   const [editedComment, setEditedComment] = useState(comment);
   const [newRating, setNewRating] = useState(rating);
 
-  const toast = useToast();
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEditedComment(event.target.value);
   };
@@ -64,16 +61,6 @@ export const EditModal = ({
       onSuccess: () => {
         mutate(swrKeys.listReviews(show_id));
         onClose();
-      },
-      onError: (error) => {
-        toast({
-          title: "Error",
-          description:
-            "There was an error editing your review. Please try again.",
-          status: "error",
-          duration: 2000,
-          isClosable: true,
-        });
       },
     }
   );

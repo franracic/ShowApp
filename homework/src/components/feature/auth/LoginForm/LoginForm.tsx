@@ -39,7 +39,7 @@ export const LoginForm = () => {
   } = useForm<ILoginFormInputs>();
 
   const { trigger, error: apiError } = useSWRMutation(swrKeys.login, mutator, {
-    onSuccess: (response) => {
+    onSuccess: () => {
       toast({
         title: "Logged in.",
         description: "Redirecting...",
@@ -47,18 +47,21 @@ export const LoginForm = () => {
         duration: 2000,
         isClosable: true,
       });
-
-      localStorage.setItem(
-        "auth-header",
-        JSON.stringify({
-          client: response.authHeaders.client,
-          token: response.authHeaders.token,
-          uid: response.authHeaders.uid,
-        })
-      );
-      mutate(swrKeys.currentUser, response.data, false);
     },
   });
+
+  const onLogin = async (data: ILoginFormInputs) => {
+    const response = await trigger(data);
+    localStorage.setItem(
+      "auth-header",
+      JSON.stringify({
+        client: response.authHeaders.client,
+        token: response.authHeaders.token,
+        uid: response.authHeaders.uid,
+      })
+    );
+    mutate(swrKeys.currentUser, response.data, false);
+  };
 
   return (
     <>
