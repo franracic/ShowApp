@@ -80,7 +80,7 @@ export const MobileNavigation = () => {
             <Button
               variant="dark"
               onClick={() => {
-                localStorage.removeItem("authData");
+                localStorage.removeItem("auth-header");
                 mutate(swrKeys.currentUser, null, {
                   revalidate: false,
                 });
