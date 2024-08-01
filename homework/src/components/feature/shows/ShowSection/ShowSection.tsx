@@ -18,7 +18,7 @@ export default function ShowSection({
   return (
     <Container maxW="100%" padding={8} p={0}>
       <VStack alignItems="stretch" spacing={24}>
-        <ShowDetails {...show} average_rating={show.average_rating} />
+        <ShowDetails {...show} average_rating={average_rating} />
         <ShowReviewSection
           reviews={reviews}
           addShowReview={addShowReview}

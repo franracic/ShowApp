@@ -13,16 +13,21 @@ import NextLink from "next/link";
 
 const placeholderImage = "https://fakeimg.pl/600x400?text=No+show+image";
 
+interface IShowCardProps extends Omit<IShow, "description"> {
+  link: boolean;
+}
+
 export const ShowCard = ({
   title,
   average_rating,
   image_url,
   id,
-}: Omit<IShow, "description">) => {
+  link = true,
+}: IShowCardProps) => {
   return (
     <Card
-      as={NextLink}
-      href={`/all-shows/${id}`}
+      h={"100%"}
+      {...(!link ? {} : { href: `/all-shows/${id}`, as: NextLink })}
       overflow="hidden"
       flexGrow={1}
       variant="light"
@@ -36,7 +41,8 @@ export const ShowCard = ({
           alt={title}
           data-testid="placeholder"
           sizes="(max-width: 768px) 25vw"
-          h={"100%"}
+          h={"320px"}
+          w={"100%"}
           sx={{ objectFit: "cover" }}
         />
       </Box>

@@ -13,13 +13,10 @@ import {
   IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
 import useSWR, { mutate } from "swr";
 import { NavigationMenu } from "./NavigationMenu";
 
 export const MobileNavigation = () => {
-  const router = useRouter();
-
   const { data, isLoading } = useSWR(swrKeys.currentUser, fetcher);
 
   const { isOpen, onToggle, onClose } = useDisclosure();
