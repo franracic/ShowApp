@@ -13,19 +13,10 @@ import {
   IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
 import useSWR, { mutate } from "swr";
 import { NavigationMenu } from "./NavigationMenu";
 
 export const MobileNavigation = () => {
-  const router = useRouter();
-
-  const logout = () => {
-    localStorage.removeItem("auth-header");
-    mutate(swrKeys.currentUser, null, false);
-    router.push("/login");
-  };
-
   const { data, isLoading } = useSWR(swrKeys.currentUser, fetcher);
 
   const { isOpen, onToggle, onClose } = useDisclosure();
@@ -64,7 +55,6 @@ export const MobileNavigation = () => {
             <Button
               variant="dark"
               onClick={() => {
-                localStorage.removeItem("auth-header");
                 localStorage.removeItem("auth-header");
                 mutate(swrKeys.currentUser, null, {
                   revalidate: false,
