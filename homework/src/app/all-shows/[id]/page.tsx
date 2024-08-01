@@ -4,7 +4,7 @@ import { getReviews, newReview } from "@/fetchers/reviews";
 import { getShow } from "@/fetchers/show";
 import { swrKeys } from "@/fetchers/swrKeys";
 import { INewReview } from "@/typings/show";
-import { Heading, Spinner } from "@chakra-ui/react";
+import { Heading, Spinner, VStack } from "@chakra-ui/react";
 import { useParams } from "next/navigation";
 import useSWR, { mutate } from "swr";
 
@@ -45,13 +45,9 @@ export default function Page() {
 
   if (isLoading || reviewsLoading || !data) {
     return (
-      <Spinner
-        thickness="4px"
-        speed="0.65s"
-        emptyColor="gray.200"
-        color="blue.500"
-        size="xl"
-      />
+      <VStack py={16}>
+        <Spinner size="xl" />
+      </VStack>
     );
   }
 

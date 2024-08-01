@@ -12,7 +12,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { mutate } from "swr";
@@ -45,8 +44,6 @@ export const EditModal = ({
   const [editedComment, setEditedComment] = useState(comment);
   const [newRating, setNewRating] = useState(rating);
 
-  const toast = useToast();
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEditedComment(event.target.value);
   };
@@ -65,18 +62,16 @@ export const EditModal = ({
         mutate(swrKeys.listReviews(show_id));
         onClose();
       },
-      onError: (error) => {
-        toast({
-          title: "Error",
-          description:
-            "There was an error editing your review. Please try again.",
-          status: "error",
-          duration: 2000,
-          isClosable: true,
-        });
-      },
     }
   );
+
+  const handleSubmit = async () => {
+    try {
+      await trigger();
+    } catch (error) {
+      console.error("Error editing review:", error);
+    }
+  };
 
   const changeReview = async ({
     comment,
@@ -94,7 +89,7 @@ export const EditModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent bgColor={"blue.900"} color={"white"}>
+      <ModalContent bgColor={"purpleDark"} color={"white"}>
         <ModalHeader data-testid="edit-modal">Edit Review</ModalHeader>
         <ModalCloseButton />
 
@@ -120,7 +115,7 @@ export const EditModal = ({
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={() => trigger()}>
+          <Button mr={3} onClick={handleSubmit}>
             Change
           </Button>
         </ModalFooter>

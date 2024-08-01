@@ -47,8 +47,8 @@ export const DeleteModal = ({
     <>
       <Button
         onClick={onOpen}
-        colorScheme="red"
         size={"xs"}
+        color={"purpleLight"}
         ml="auto"
         w={"100%"}
         name="delete"
@@ -57,7 +57,7 @@ export const DeleteModal = ({
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent bgColor={"blue.900"} color={"white"}>
+        <ModalContent bgColor={"purpleDark"} color={"white"}>
           <ModalHeader data-testid="delete-modal">Delete review?</ModalHeader>
           <ModalCloseButton />
 

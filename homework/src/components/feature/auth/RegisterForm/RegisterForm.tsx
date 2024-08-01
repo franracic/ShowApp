@@ -1,24 +1,26 @@
 "use client";
+import { LogoImage } from "@/components/core/Logo/Logo";
 import { PasswordInput } from "@/components/shared/PasswordInput/PasswordInput";
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
   Button,
   Card,
+  CardBody,
   FormControl,
-  FormHelperText,
-  FormLabel,
-  Heading,
+  FormErrorMessage,
+  HStack,
+  Icon,
   Input,
+  InputGroup,
+  InputLeftElement,
   Link,
   Text,
+  VStack,
   chakra,
   useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { MdPerson } from "react-icons/md";
 import useSWRMutation from "swr/mutation";
 import { mutator } from "../../../../fetchers/mutators";
 import { swrKeys } from "../../../../fetchers/swrKeys";
@@ -71,95 +73,90 @@ export const RegisterForm = () => {
 
   return (
     <>
-      <Card
-        direction="column"
-        gap={3}
-        alignItems="center"
-        color={"white"}
-        p={4}
-        border={"1px solid black"}
-        borderRadius={"2xl"}
-        boxShadow={"md"}
-        bg={"whiteAlpha.100"}
-        maxW={"700px"}
-        w={"100%"}
-      >
-        <Heading as="h2">Register</Heading>
-        {apiError && (
-          <Alert status="error" colorScheme="red" variant="solid">
-            <AlertIcon />
-            <AlertTitle>{apiError.message}</AlertTitle>
-            <AlertDescription>Try again!</AlertDescription>
-          </Alert>
-        )}
-        <chakra.form
-          width="100%"
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          gap={3}
-          onSubmit={handleSubmit(onRegister)}
-        >
-          <FormControl isRequired isInvalid={!!errors.email}>
-            <FormLabel>Email</FormLabel>
-            <Input
-              {...register("email", {
-                required: "Email is required",
-              })}
-              type="email"
-              disabled={isSubmitting}
-            />
-            {errors.email && (
-              <Text color="red.500">{errors.email.message}</Text>
-            )}
-          </FormControl>
+      <Card p={8} bg={"purpleSecond"}>
+        <CardBody>
+          <VStack spacing={0}>
+            <HStack justifyContent="center" marginBottom={"50px"}>
+              <LogoImage width={200} />
+            </HStack>
+            <chakra.form
+              display={"flex"}
+              flexDirection={"column"}
+              alignItems={"center"}
+              onSubmit={handleSubmit(onRegister)}
+            >
+              <VStack spacing={8}>
+                <FormControl isRequired isInvalid={!!errors.email}>
+                  <InputGroup variant="dark">
+                    <InputLeftElement pointerEvents="none">
+                      <Icon as={MdPerson} boxSize={6} />
+                    </InputLeftElement>
+                    <Input
+                      {...register("email", {
+                        required: "Email is required",
+                      })}
+                      type="email"
+                      placeholder="Enter email"
+                      disabled={isSubmitting}
+                    />
+                  </InputGroup>
+                  <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+                </FormControl>
 
-          <FormControl isRequired isInvalid={!!errors.password}>
-            <FormLabel>Password</FormLabel>
-            <PasswordInput
-              register={{
-                ...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 6,
-                    message: "Password must be at least 6 characters",
-                  },
-                }),
-              }}
-              disabled={isSubmitting}
-              error={errors.password?.message}
-            />
-            <FormHelperText>Min. 6 characters</FormHelperText>
-          </FormControl>
+                <FormControl isRequired isInvalid={!!errors.password}>
+                  <PasswordInput
+                    register={{
+                      ...register("password", {
+                        required: "Password is required",
+                      }),
+                    }}
+                    disabled={isSubmitting}
+                    error={errors.password?.message}
+                  />
+                  <FormErrorMessage>
+                    {errors.password?.message}
+                  </FormErrorMessage>
+                </FormControl>
 
-          <FormControl isRequired isInvalid={!!errors.confirmPassword}>
-            <FormLabel>Confirm Password</FormLabel>
-            <PasswordInput
-              register={{
-                ...register("confirmPassword", {
-                  required: "Confirm Password is required",
-                }),
-              }}
-              disabled={isSubmitting}
-              error={errors.confirmPassword?.message}
-            />
-          </FormControl>
+                <FormControl isRequired isInvalid={!!errors.password}>
+                  <PasswordInput
+                    register={{
+                      ...register("confirmPassword", {
+                        required: "Confirm Password is required",
+                      }),
+                    }}
+                    disabled={isSubmitting}
+                    error={errors.confirmPassword?.message}
+                  />
+                  <FormErrorMessage>
+                    {errors.confirmPassword?.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </VStack>
 
-          <Button
-            type="submit"
-            colorScheme="blue"
-            isLoading={isSubmitting}
-            loadingText="Submitting"
-          >
-            Sign up
-          </Button>
-        </chakra.form>
-        <Text>
-          Already have an account?{" "}
-          <Link href="/login" color={"blue.100"} fontWeight={"bold"}>
-            Login
-          </Link>
-        </Text>
+              <Button
+                type="submit"
+                isLoading={isSubmitting}
+                marginTop="58px"
+                variant="light"
+                loadingText="Submitting"
+              >
+                Sign up
+              </Button>
+            </chakra.form>
+            <Text
+              marginTop="28px"
+              color="white"
+              fontSize="sm"
+              textAlign="center"
+            >
+              Already have an account?{" "}
+              <Link href="/login" fontWeight={600}>
+                Login
+              </Link>
+            </Text>
+          </VStack>
+        </CardBody>
       </Card>
     </>
   );

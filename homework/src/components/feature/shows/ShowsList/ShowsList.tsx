@@ -8,7 +8,7 @@ export const ShowsList = ({ shows }: { shows: Array<IShow> }) => {
     return <div data-testid="placeholder">No shows available</div>;
   }
   return (
-    <SimpleGrid columns={[1, 2, 3]} spacing="6">
+    <SimpleGrid columns={[1, 2, 3, 4, 5]} spacing="6">
       {shows.map((show) => (
         <ShowCard key={show.title} {...show} />
       ))}
