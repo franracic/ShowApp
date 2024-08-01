@@ -11,7 +11,7 @@ export function getReviews(showId: string) {
 }
 
 export function newReview(review: INewReview) {
-  return fetcher<IReview>(swrKeys.newReview, {
+  return fetcher<{review:IReview}>(swrKeys.newReview, {
     method: "POST",
     body: JSON.stringify(review),
   });
@@ -26,12 +26,16 @@ export function deleteReview(reviewId: string) {
   });
 }
 
-export function updateReview(comment:string, rating:number, reviewId: string) {
+export function updateReview(
+  comment: string,
+  rating: number,
+  reviewId: string
+) {
   return fetcher(swrKeys.deleteReview(reviewId), {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({comment, rating})
+    body: JSON.stringify({ comment, rating }),
   });
 }

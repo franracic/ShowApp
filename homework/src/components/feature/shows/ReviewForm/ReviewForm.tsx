@@ -1,4 +1,5 @@
-import { INewReview } from "@/typings/show";
+import { ReviewContext } from "@/components/feature/review/ReviewContext/ReviewContext";
+import { INewReview, IReview } from "@/typings/show";
 import {
   Box,
   Button,
@@ -8,7 +9,7 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ReviewStarsInput } from "../../review/ReviewStars/ReviewStarsInput";
 
@@ -16,24 +17,32 @@ export const ReviewForm = ({
   addShowReview,
   id,
 }: {
-  addShowReview: (review: INewReview) => void;
+  addShowReview: (review: INewReview) => Promise<IReview | undefined>;
   id: string;
 }) => {
   const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
 
+  const { setHasNotification, setNewReviews, newReviews } =
+    useContext(ReviewContext);
   const onSubmit = (data: any) => {
     if (Number.isNaN(data.rating) || data.rating < 1 || data.rating > 5) {
       return;
     }
-    addShowReview({
+    const newReview = {
       rating: data.rating,
       comment: data.comment,
       show_id: id,
+    };
+    addShowReview(newReview).then((newReviewResult) => {
+      if (newReviewResult) {
+        setNewReviews([{ ...newReviewResult }, ...newReviews]);
+        setHasNotification(true);
+
+        setRating(0);
+        setValue("comment", "");
+        setValue("rating", 0);
+      }
     });
-    setRating(0);
-    setValue("comment", "");
-    setValue("rating", 0);
   };
   const { register, formState, setValue, handleSubmit } = useForm();
 
